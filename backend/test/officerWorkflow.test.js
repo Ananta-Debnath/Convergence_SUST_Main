@@ -92,6 +92,15 @@ test('officer workflow API', async (t) => {
     );
   });
 
+  await t.test('returns one ticket by ID', async () => {
+    const response = await request('/api/tickets/TICKET-1002');
+
+    assert.equal(response.status, 200);
+    assert.equal(response.body.ticket.ticketId, 'TICKET-1002');
+    assert.equal(response.body.ticket.assignedProvider, 'bKash');
+    assert.equal((await request('/api/tickets/UNKNOWN')).status, 404);
+  });
+
   await t.test('masks every competitor balance without mutating data', async () => {
     const before = await fsPromises.readFile(temporaryDataFile, 'utf8');
     const response = await request(
@@ -128,14 +137,14 @@ test('officer workflow API', async (t) => {
       body: JSON.stringify({
         status: 'closed',
         assignedProvider: 'rocket',
-        ownerId: 'attacker',
+        ownerId: 'new-nagad-officer',
       }),
     });
 
     assert.equal(response.status, 200);
     assert.equal(response.body.ticket.status, 'Closed');
     assert.equal(response.body.ticket.assignedProvider, 'nagad');
-    assert.equal(response.body.ticket.ownerId, 'nagad-officer-01');
+    assert.equal(response.body.ticket.ownerId, 'new-nagad-officer');
 
     const storedData = JSON.parse(
       await fsPromises.readFile(temporaryDataFile, 'utf8'),
@@ -144,6 +153,7 @@ test('officer workflow API', async (t) => {
       (ticket) => ticket.ticketId === 'TICKET-1001',
     );
     assert.equal(storedTicket.status, 'Closed');
+    assert.equal(storedTicket.ownerId, 'new-nagad-officer');
 
     const activeTickets = await request('/api/tickets?provider=nagad');
     assert.deepEqual(activeTickets.body.tickets, []);
@@ -153,6 +163,15 @@ test('officer workflow API', async (t) => {
         await request('/api/tickets/TICKET-1001/status', {
           method: 'PUT',
           body: JSON.stringify({ status: 'invalid' }),
+        })
+      ).status,
+      400,
+    );
+    assert.equal(
+      (
+        await request('/api/tickets/TICKET-1001/status', {
+          method: 'PUT',
+          body: JSON.stringify({ status: 'Closed', ownerId: '   ' }),
         })
       ).status,
       400,

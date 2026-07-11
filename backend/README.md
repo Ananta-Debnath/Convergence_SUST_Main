@@ -34,11 +34,19 @@ PUT /api/tickets/TICKET-1001/status
 Content-Type: application/json
 
 {
-  "status": "Acknowledged"
+  "status": "Acknowledged",
+  "ownerId": "nagad-officer-02"
 }
 ```
 
-Valid statuses are `New`, `Acknowledged`, and `Closed`.
+Valid statuses are `New`, `Acknowledged`, and `Closed`. `ownerId` is optional;
+include it when an officer claims the ticket.
+
+### Fetch one ticket
+
+```http
+GET /api/tickets/TICKET-1001
+```
 
 ### Add and retrieve ticket messages
 

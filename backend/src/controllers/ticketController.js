@@ -7,6 +7,7 @@ const TICKET_STATUSES = Object.freeze(['New', 'Acknowledged', 'Closed']);
 const ACTIVE_TICKET_STATUSES = new Set(['New', 'Acknowledged']);
 const MAX_MESSAGE_LENGTH = 2000;
 const MAX_SENDER_ROLE_LENGTH = 50;
+const MAX_OWNER_ID_LENGTH = 100;
 
 const dataFilePath = path.resolve(
   process.env.DATA_FILE_PATH ||
@@ -105,12 +106,42 @@ async function getActiveTickets(req, res) {
   return res.status(200).json({ tickets });
 }
 
+async function getTicketById(req, res) {
+  const data = await readData();
+  const ticket = data.tickets.find(
+    (candidate) => candidate.ticketId === req.params.ticketId,
+  );
+
+  if (!ticket) {
+    return res.status(404).json({ error: 'Ticket not found.' });
+  }
+
+  return res.status(200).json({ ticket });
+}
+
 async function updateTicketStatus(req, res) {
   const status = normalizeStatus(req.body?.status);
+  const ownerIdWasProvided = Object.prototype.hasOwnProperty.call(
+    req.body || {},
+    'ownerId',
+  );
+  const ownerId =
+    ownerIdWasProvided && typeof req.body.ownerId === 'string'
+      ? req.body.ownerId.trim()
+      : null;
 
   if (!status) {
     return res.status(400).json({
       error: `status must be one of: ${TICKET_STATUSES.join(', ')}.`,
+    });
+  }
+
+  if (
+    ownerIdWasProvided &&
+    (!ownerId || ownerId.length > MAX_OWNER_ID_LENGTH)
+  ) {
+    return res.status(400).json({
+      error: `ownerId must be a non-empty string of at most ${MAX_OWNER_ID_LENGTH} characters.`,
     });
   }
 
@@ -123,8 +154,13 @@ async function updateTicketStatus(req, res) {
       return { changed: false, value: null };
     }
 
-    // Update only the allowed field; ignore any extra body properties.
+    // Update only explicitly allowed fields; ignore other body properties.
     storedTicket.status = status;
+
+    if (ownerIdWasProvided) {
+      storedTicket.ownerId = ownerId;
+    }
+
     return { changed: true, value: { ...storedTicket } };
   });
 
@@ -249,6 +285,7 @@ async function getOfficerView(req, res) {
 
 module.exports = {
   getActiveTickets,
+  getTicketById,
   updateTicketStatus,
   addMessage,
   getMessages,
