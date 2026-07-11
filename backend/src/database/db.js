@@ -11,7 +11,9 @@ const DEFAULT_JSON_DB = {
     createdAt: null,
     updatedAt: null,
   },
-  records: [],
+  agents: [],
+  field_workers: [],
+  cases: [],
 };
 
 function getJsonDbPath() {
@@ -82,10 +84,15 @@ async function updateJsonDb(updater) {
 
 async function testJsonDbConnection() {
   const data = await readJsonDb();
+  const agentsCount = Array.isArray(data.agents) ? data.agents.length : 0;
+  const workersCount = Array.isArray(data.field_workers) ? data.field_workers.length : 0;
+  const casesCount = Array.isArray(data.cases) ? data.cases.length : 0;
+  const totalCount = agentsCount + workersCount + casesCount;
+
   return {
     source: 'local-json',
     path: getJsonDbPath(),
-    records: Array.isArray(data.records) ? data.records.length : 0,
+    records: totalCount,
     updatedAt: data.meta && data.meta.updatedAt,
   };
 }
