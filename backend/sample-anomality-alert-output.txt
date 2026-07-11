@@ -1,0 +1,82 @@
+{
+  "agent": {
+    "agent_id": "AGT-8472",
+    "business_name": "Molla Telecom",
+    "area_name": "Sylhet Sadar",
+    "anomality_alert": [
+      {
+        "alert_id": "ALT-599D317C838D",
+        "dedup_key": "AGT-8472:SMURFING_PATTERN:01711223344:01711223344",
+        "timestamp": "2026-07-11T10:04:00.000Z",
+        "alert_type": "SMURFING_PATTERN",
+        "severity": "HIGH",
+        "severity_score": 71,
+        "provider": "Nagad",
+        "agent_id": "AGT-8472",
+        "business_name": "Molla Telecom",
+        "user_id": "01711223344",
+        "subject_entity_type": "user",
+        "subject_entity_id": "01711223344",
+        "title": "Unusual Activity Requiring Review (01711223344)",
+        "message_en": "User 01711223344 completed 5 cash-outs totaling 49,995 BDT in 4 minutes at agent AGT-8472. This may reflect normal customer demand or a data issue. A responsible person must review the information before any action is taken.",
+        "message_bn": "গত 4 মিনিটে ব্যবহারকারী 01711223344 মোট 49,995 BDT-এর 5টি ক্যাশ-আউট করেছেন। এটি স্বাভাবিক গ্রাহক চাহিদা বা ডেটার সমস্যার কারণেও হতে পারে; তবে কোনো সিদ্ধান্ত নেওয়ার আগে একজন দায়িত্বপ্রাপ্ত কর্মীকে তথ্যগুলো পর্যালোচনা করতে হবে।",
+        "message_banglish": "Goto 4 minute-e user 01711223344 mot 49,995 BDT-er 5ti cash-out korechen. Eti shabhabik customer demand ba data problem-er karoneo hote pare; tobe kono decision neyar age ekjon dayittoprapto person-ke information review korte hobe.",
+        "context": "This may reflect normal customer demand, a data issue, or activity that requires review.",
+        "evidence": "User 01711223344 completed 5 cash-outs totaling 49,995 BDT in 4 minutes at agent AGT-8472.",
+        "uncertainty": "Data Confidence: HIGH",
+        "recommended_action": "Have a field worker complete a human review of the sequence and confirm its purpose with the agent and customer.",
+        "workflow_status": "NEW_AGENT_REVIEW",
+        "can_forward": true,
+        "recipient_type": "agent",
+        "routing_target": "AGT-8472",
+        "responsible_role": "Agent (Molla Telecom)",
+        "transaction_ids": [
+          "TXN-SAMPLE-1",
+          "TXN-SAMPLE-2",
+          "TXN-SAMPLE-3",
+          "TXN-SAMPLE-4",
+          "TXN-SAMPLE-5"
+        ]
+      }
+    ]
+  },
+  "manager": {
+    "manager_id": "MGR-SYLHET-01",
+    "managed_region": "Sylhet Sadar",
+    "anomality_alert": [
+      {
+        "alert_id": "ALT-8F6592DF88BF",
+        "dedup_key": "AGT-8472:CLONE_PATTERN:AGT-8472:9999",
+        "timestamp": "2026-07-11T10:04:00.000Z",
+        "alert_type": "CLONE_PATTERN",
+        "severity": "HIGH",
+        "severity_score": 66,
+        "provider": "Nagad",
+        "agent_id": "AGT-8472",
+        "business_name": "Molla Telecom",
+        "subject_entity_type": "agent",
+        "subject_entity_id": "AGT-8472",
+        "title": "Unusual Activity Requiring Review (AGT-8472)",
+        "message_en": "Agent AGT-8472 processed 5 cash-outs of exactly 9,999 BDT across Nagad in 4 minutes. This may reflect normal customer demand or a data issue. A responsible person must review the information before any action is taken.",
+        "message_bn": "গত 4 মিনিটে এজেন্ট AGT-8472-এ একই 9,999 BDT পরিমাণের 5টি ক্যাশ-আউট হয়েছে। এটি স্বাভাবিক গ্রাহক চাহিদা বা ডেটার সমস্যার কারণেও হতে পারে; তবে কোনো সিদ্ধান্ত নেওয়ার আগে একজন দায়িত্বপ্রাপ্ত কর্মীকে তথ্যগুলো পর্যালোচনা করতে হবে।",
+        "message_banglish": "Goto 4 minute-e agent AGT-8472-e eki 9,999 BDT porimaner 5ti cash-out hoyeche. Eti shabhabik customer demand ba data problem-er karoneo hote pare; tobe kono decision neyar age ekjon dayittoprapto person-ke information review korte hobe.",
+        "context": "This may reflect normal customer demand, a data issue, or activity that requires review.",
+        "evidence": "Agent AGT-8472 processed 5 cash-outs of exactly 9,999 BDT across Nagad in 4 minutes.",
+        "uncertainty": "Data Confidence: HIGH",
+        "recommended_action": "Have a field worker complete a human review of these transactions with the agent before supplying additional liquidity or taking any account action.",
+        "workflow_status": "NEW_UNASSIGNED",
+        "can_forward": true,
+        "recipient_type": "manager",
+        "routing_target": "MGR-SYLHET-01",
+        "responsible_role": "Territory Manager (Sylhet Sadar)",
+        "transaction_ids": [
+          "TXN-SAMPLE-1",
+          "TXN-SAMPLE-2",
+          "TXN-SAMPLE-3",
+          "TXN-SAMPLE-4",
+          "TXN-SAMPLE-5"
+        ]
+      }
+    ]
+  }
+}
