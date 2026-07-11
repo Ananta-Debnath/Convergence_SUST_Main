@@ -35,6 +35,61 @@ button {
   margin-bottom: 24px;
 }
 
+.header-left {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.role-selectors {
+  display: flex;
+  align-items: end;
+  flex-wrap: wrap;
+  gap: 10px;
+  max-width: 940px;
+}
+
+.role-selectors-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid #cad8d3;
+  border-radius: 8px;
+  color: #163b35;
+  background: #ffffff;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.role-select {
+  display: grid;
+  gap: 6px;
+  min-width: min(100%, 210px);
+}
+
+.role-select span {
+  color: #55706d;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.role-select select {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 36px 0 12px;
+  border: 1px solid #cad8d3;
+  border-radius: 8px;
+  color: #163b35;
+  background: #ffffff;
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
 .eyebrow {
   margin: 0 0 8px;
   color: #55706d;
@@ -252,6 +307,15 @@ h3 {
 
   .topbar {
     align-items: flex-start;
+  }
+
+  .role-selectors,
+  .role-select {
+    width: 100%;
+  }
+
+  .role-selectors-title {
+    width: 100%;
   }
 
   .row-meta,
