@@ -1,0 +1,20 @@
+# Render Blueprint for the Convergence SUST Prelims backend.
+# One free-tier Web Service, Docker runtime, rootDir = backend/.
+# Provision from the Render dashboard: New -> Blueprint -> point at this repo.
+services:
+  - type: web
+    name: convergence-backend
+    runtime: docker
+    rootDir: backend
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    plan: free
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # DATABASE_URL must be set in the Render dashboard (sync: false so a
+      # missing secret in the repo doesn't fail the Blueprint apply).
+      - key: DATABASE_URL
+        sync: false
