@@ -1,155 +1,73 @@
 {
-  "meta": {
-    "name": "convergence-backend",
-    "createdAt": "2026-07-11T00:00:00.000Z",
-    "source": "local-json",
-    "updatedAt": "2026-07-11T07:43:40.731Z"
-  },
   "agents": [
     {
-      "agent_id": "AGT-8472",
-      "business_name": "Molla Telecom",
-      "area_name": "Sylhet Sadar",
-      "last_updated": "2026-07-11T12:00:00+06:00",
-      "balances": {
-        "shared_physical_cash": 125000,
-        "provider_e_money": {
-          "bKash": 15000,
-          "Nagad": 8500,
-          "Rocket": 32000
-        }
-      },
-      "operational_metrics": {
-        "daily_transaction_count": 142,
-        "projected_emoney_shortage": {
-          "provider": "Nagad",
-          "estimated_window_mins": 45
-        }
-      },
-      "recent_transactions": [
-        {
-          "transaction_id": "TXN-9901",
-          "provider_id": "bKash",
-          "time": "2026-07-11T11:15:00Z",
-          "transaction_type": "cash-out",
-          "amount": 10000,
-          "status": "success",
-          "event_flags": []
-        },
-        {
-          "transaction_id": "TXN-9902",
-          "provider_id": "Nagad",
-          "time": "2026-07-11T11:22:00Z",
-          "transaction_type": "cash-in",
-          "amount": 2000,
-          "status": "success",
-          "event_flags": []
-        }
-      ]
-    }
-  ],
-  "field_workers": [
-    {
-      "worker_id": "FW-NG-9921",
-      "name": "Tariqul Islam",
-      "provider_id": "Nagad",
-      "contact_status": "active",
-      "last_sync_time": "2026-07-11T12:02:15+06:00",
-      "routing_logic": {
-        "covered_areas": [
-          "Sylhet Sadar",
-          "Zindabazar"
-        ]
-      },
-      "active_workload": {
-        "assigned_cases": [
-          "CASE-1001"
-        ],
-        "unassigned_cases": [
-          "CASE-1002"
-        ]
+      "agentId": "AGENT-001",
+      "sharedPhysicalCash": 8500,
+      "eMoneyBalances": {
+        "bKash": 42000,
+        "nagad": 76000,
+        "rocket": 31000
       }
-    }
-  ],
-  "cases": [
-    {
-      "case_id": "CASE-1001",
-      "agent_id": "AGT-8472",
-      "provider_id": "Nagad",
-      "area_name": "Sylhet Sadar",
-      "alert_type": "unusual_activity",
-      "created_at": "2026-07-11T11:30:00+06:00",
-      "status": "acknowledged",
-      "owner_worker_id": "FW-NG-9921",
-      "evidence": "Repeated near-identical cash-out amounts from 3 accounts.",
-      "safe_language_note": "Requires review for unusual velocity. Do not block agent.",
-      "recommended_action": "Contact agent to verify transaction context."
     },
     {
-      "case_id": "CASE-1002",
-      "agent_id": "AGT-8472",
-      "provider_id": "Nagad",
-      "area_name": "Sylhet Sadar",
-      "alert_type": "liquidity_pressure",
-      "created_at": "2026-07-11T11:55:00+06:00",
-      "status": "open",
-      "owner_worker_id": null,
-      "evidence": "Nagad e-money balance dropping rapidly; projected to deplete in 45 mins.",
-      "safe_language_note": "Upcoming service disruption likely.",
-      "recommended_action": "Acknowledge case and advise agent to arrange e-money top-up."
+      "agentId": "AGENT-002",
+      "sharedPhysicalCash": 18500,
+      "eMoneyBalances": {
+        "bKash": 28000,
+        "nagad": 22000,
+        "rocket": 35000
+      }
+    },
+    {
+      "agentId": "AGENT-003",
+      "sharedPhysicalCash": 6200,
+      "eMoneyBalances": {
+        "bKash": 91000,
+        "nagad": 54000,
+        "rocket": 48000
+      }
     }
   ],
-  "managers": [
+  "tickets": [
     {
-      "manager_id": "MGR-BK-SYL-01",
-      "provider_id": "bKash",
-      "managed_region": "Greater Sylhet",
-      "managed_workers": [
-        "FW-BK-101",
-        "FW-BK-102",
-        "FW-BK-103"
-      ],
-      "monitoring_dashboard": {
-        "system_health_status": "warning",
-        "active_bottlenecks": [
-          {
-            "location": "Sylhet Sadar",
-            "issue_type": "Liquidity Drain",
-            "severity": "High"
-          }
-        ]
-      },
-      "flagged_entities": [
-        {
-          "entity_id": "01711223344",
-          "entity_type": "User",
-          "flag_reason": "High frequency cash-in/cash-out loop",
-          "timestamp": "2026-07-11T10:15:00Z"
-        },
-        {
-          "entity_id": "AGT-BK-405",
-          "entity_type": "Agent",
-          "flag_reason": "Unusual night-time transaction volume",
-          "timestamp": "2026-07-11T11:30:00Z"
-        }
-      ],
-      "case_management": {
-        "active_cases": [
-          {
-            "case_id": "CASE-3001",
-            "target_entity": "01711223344",
-            "assigned_to_worker": "FW-BK-101",
-            "status": "investigating_field"
-          },
-          {
-            "case_id": "CASE-3002",
-            "target_entity": "AGT-BK-405",
-            "assigned_to_worker": "FW-BK-102",
-            "status": "pending_worker_review"
-          }
-        ],
-        "resolved_cases": []
-      }
+      "ticketId": "TICKET-1001",
+      "agentId": "AGENT-001",
+      "alertType": "Liquidity Alert",
+      "assignedProvider": "nagad",
+      "status": "New",
+      "ownerId": "nagad-officer-01"
+    },
+    {
+      "ticketId": "TICKET-1002",
+      "agentId": "AGENT-002",
+      "alertType": "Liquidity Alert",
+      "assignedProvider": "bKash",
+      "status": "Acknowledged",
+      "ownerId": "bkash-officer-01"
+    },
+    {
+      "ticketId": "TICKET-1003",
+      "agentId": "AGENT-003",
+      "alertType": "Liquidity Alert",
+      "assignedProvider": "rocket",
+      "status": "Closed",
+      "ownerId": "rocket-officer-01"
+    }
+  ],
+  "messages": [
+    {
+      "messageId": "MESSAGE-1001",
+      "ticketId": "TICKET-1001",
+      "senderRole": "officer",
+      "text": "I am reviewing the cash shortage and will contact you shortly.",
+      "timestamp": "2026-07-11T09:00:00.000Z"
+    },
+    {
+      "messageId": "MESSAGE-1002",
+      "ticketId": "TICKET-1001",
+      "senderRole": "agent",
+      "text": "Thank you. I am available now.",
+      "timestamp": "2026-07-11T09:03:00.000Z"
     }
   ]
 }
