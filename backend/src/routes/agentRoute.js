@@ -5,5 +5,7 @@ const router = express.Router();
 
 router.get('/agents', agentController.getAgents);
 router.get('/agents/:id', agentController.getAgentById);
+router.post('/agents', agentController.createOrUpdateAgent);
 
 module.exports = router;
+
