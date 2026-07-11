@@ -29,7 +29,7 @@ const getAgents = async (req, res) => {
 const getAgentById = async (req, res) => {
     const { id } = req.params;
     const data = await readJsonDb();
-    const agent = data.agents?.find(a => a.id === id);
+    const agent = data.agents?.find(a => a.agent_id === id);
 
     if (!agent) {
         return res.status(404).json({
