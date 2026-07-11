@@ -1638,7 +1638,7 @@
       "anomality_alert": []
     }
   ],
-  "field_workers": [
+  "tickets": [
     {
       "worker_id": "FW-BK-101",
       "name": "Rafiq Hasan",
@@ -1712,7 +1712,7 @@
       }
     }
   ],
-  "cases": [
+  "messages": [
     {
       "case_id": "CASE-1001",
       "agent_id": "AGT-8472",
