@@ -72,24 +72,51 @@ The server generates every message ID and timestamp.
 GET /api/agent/AGENT-001/officer-view?provider=nagad
 ```
 
-Example response:
+## Anomaly alert endpoints
+
+- `GET /agents/:id/alerts` analyzes the stored agent's recent transactions.
+- `POST /alerts/analyze` analyzes supplied live or historical transaction data.
+
+Example request:
 
 ```json
 {
-  "agentId": "AGENT-001",
-  "sharedPhysicalCash": 8500,
-  "eMoneyBalances": {
-    "bKash": "HIDDEN",
-    "nagad": 76000,
-    "rocket": "HIDDEN"
-  }
+  "agent_id": "AGT-8472",
+  "use_gemini": true,
+  "transactions": [
+    {
+      "transaction_id": "TXN-1",
+      "provider_id": "Nagad",
+      "user_id": "USER-1",
+      "wallet_id": "WALLET-1",
+      "time": "2026-07-11T11:20:00Z",
+      "transaction_type": "cash-out",
+      "amount": 9999,
+      "status": "success"
+    }
+  ]
 }
 ```
 
-The response is constructed from an explicit allowlist and never returns the
-stored agent object, so competitor balances remain hidden.
+The response contains deterministic pattern evidence, transaction IDs, and a
+severity object with `score`, `level`, and `factors`. `user_id` is needed for
+user-level splitting and velocity rules.
 
-## Prototype storage note
+Dashboard-ready anomaly alerts stay directly on the responsible entity:
+`agent.anomality_alert` contains user-level anomalies, while
+`manager.anomality_alert` contains agent-level anomalies. There is no shared
+inbox or top-level anomaly queue. Both fields remain separate from the existing
+`active_alerts` liquidity-alert queue.
+
+Set `GEMINI_API_KEY` to enable Gemini-generated `subject`, `evidence`,
+`context`, `recommended_action`, `message_en`, `message_bn`, and
+`message_banglish` fields. All three localized paragraphs communicate the same
+evidence, uncertainty, and human-review step. If the key is absent, the request
+times out, or generated text fails safe-language validation, the API returns
+deterministic messages in all three formats. Pass `use_gemini=false` to avoid
+an external call.
+
+## Health endpoints
 
 File updates are serialized inside the Node.js process and saved through a
 temporary file before replacement. Run a single server process when using
