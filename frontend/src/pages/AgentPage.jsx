@@ -37,13 +37,31 @@ function AgentPage({ agent, cases, formatBDT }) {
   const totalDemand  = providerBalances.reduce((sum, p) => sum + p.demand,  0);
   const coverage     = totalDemand > 0 ? Math.round((totalBalance / totalDemand) * 100) : 0;
 
-  const alerts = (agent?.active_alerts ?? []).map((a) => ({
+  const mapSeverity = (severityString) => {
+    if (!severityString) return 'Medium';
+    const s = severityString.toLowerCase();
+    if (s === 'critical' || s === 'high') return 'High';
+    if (s === 'warning' || s === 'medium') return 'Medium';
+    return 'Low';
+  };
+
+  const normalAlerts = (agent?.active_alerts ?? []).map((a) => ({
     id:       a.alert_id,
     title:    a.title || 'System Alert',
     detail:   a.message_en || a.evidence || 'No details provided',
     owner:    a.responsible_role || 'Operations',
-    severity: a.severity || 'Medium',
+    severity: mapSeverity(a.severity),
   }));
+
+  const anomalyAlerts = (agent?.anomality_alert ?? []).map((a) => ({
+    id:       a.alert_id,
+    title:    a.title || 'Anomaly Alert',
+    detail:   a.message_en || a.evidence || 'No details provided',
+    owner:    a.responsible_role || 'Operations',
+    severity: mapSeverity(a.severity),
+  }));
+
+  const alerts = [...normalAlerts, ...anomalyAlerts];
 
   return (
     <>

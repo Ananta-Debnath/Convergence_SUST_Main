@@ -38,7 +38,7 @@ async function initializeData() {
     const agents = db.agents || [];
 
     const unprocessed = agents.filter(
-      (a) => !a.operational_metrics?.liquidity_predictions
+      (a) => !a.operational_metrics?.liquidity_predictions || !a.anomality_alert
     );
 
     if (unprocessed.length === 0) {

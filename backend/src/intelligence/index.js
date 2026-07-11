@@ -5,11 +5,11 @@ const { updateJsonDb, getPrimaryDbSource, getSql } = require('../database/db');
 
 /**
  * Orchestrates intelligence processing on an agent by calling predictions,
- * risk scoring, and active alerts generation in order.
+ * risk scoring, active alerts generation, and anomaly detection in order.
  * @param {Object} agent - The raw or partially filled agent object.
- * @returns {Object} The fully processed agent object.
+ * @returns {Promise<Object>} The fully processed agent object.
  */
-function processAgentIntelligence(agent) {
+async function processAgentIntelligence(agent) {
   if (!agent) {
     throw new Error('Agent object is required for intelligence processing.');
   }
@@ -31,6 +31,17 @@ function processAgentIntelligence(agent) {
   // 3. Generate active alerts based on predictions & risk score (mutates agent)
   const { updated_agent } = generateActiveAlerts(agent);
 
+  // 4. Run anomaly alert generation
+  try {
+    const { anomalityAlert } = require('../services/anomalityAlert');
+    const anomalyResult = await anomalityAlert({ agent: updated_agent });
+    if (anomalyResult && anomalyResult.agent) {
+      updated_agent.anomality_alert = anomalyResult.agent.anomality_alert || [];
+    }
+  } catch (err) {
+    console.error(`[Intelligence] Failed to run anomaly alerts for agent ${updated_agent.agent_id}:`, err.message);
+  }
+
   return updated_agent;
 }
 
@@ -40,7 +51,7 @@ function processAgentIntelligence(agent) {
  * @returns {Promise<Object>} The processed and saved agent.
  */
 async function processAndSaveAgent(agent) {
-  const processedAgent = processAgentIntelligence(agent);
+  const processedAgent = await processAgentIntelligence(agent);
   const dbSource = getPrimaryDbSource();
 
   if (['neon', 'postgres', 'postgresql'].includes(dbSource)) {

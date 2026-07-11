@@ -1,9 +1,9 @@
 {
   "meta": {
     "name": "convergence-backend",
-    "source": "local-json",
     "createdAt": "2026-07-11T00:00:00.000Z",
-    "updatedAt": "2026-07-11T10:57:06.115Z"
+    "source": "local-json",
+    "updatedAt": "2026-07-11T11:33:30.824Z"
   },
   "agents": [
     {
@@ -66,7 +66,7 @@
           "window_mins_used": 30
         },
         "risk_analysis": {
-          "evaluated_at": "2026-07-11T10:57:06.114Z",
+          "evaluated_at": "2026-07-11T11:33:30.823Z",
           "primary_risk_provider": "bKash",
           "overall_risk_score": 42,
           "overall_risk_tier": "ELEVATED",
@@ -140,7 +140,8 @@
           "event_flags": []
         }
       ],
-      "active_alerts": []
+      "active_alerts": [],
+      "anomality_alert": []
     }
   ],
   "field_workers": [
