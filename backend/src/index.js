@@ -1,10 +1,5 @@
-// Load env vars from a local .env file if present.
-// Safe to require even if dotenv isn't installed yet.
-try {
-  require('dotenv').config();
-} catch (_) {
-  // dotenv not installed yet; rely on real env vars
-}
+// Compatibility launcher for environments that still invoke src/index.js.
+const { startServer } = require('./server');
 
 const express = require('express');
 const healthRoutes = require('./routes/healthRoutes.js');

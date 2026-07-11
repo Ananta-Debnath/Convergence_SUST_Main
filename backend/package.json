@@ -1,8 +1,8 @@
 {
   "name": "convergence-backend",
   "version": "0.1.0",
-  "description": "Backend for Convergence SUST Prelims",
-  "main": "src/index.js",
+  "description": "Officer workflow API for the Super Agent prototype",
+  "main": "src/server.js",
   "type": "commonjs",
   "scripts": {
     "start": "node src/index.js",
@@ -11,7 +11,6 @@
     "test": "node --test"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.1.0",
     "dotenv": "^17.4.2",
     "express": "^4.19.2"
   },
