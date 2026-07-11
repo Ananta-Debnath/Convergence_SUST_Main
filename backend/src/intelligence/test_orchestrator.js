@@ -32,7 +32,7 @@ async function runTest() {
 
   // 1. Process intelligence
   console.log('Running processAgentIntelligence...');
-  const processed = processAgentIntelligence(testAgent);
+  const processed = await processAgentIntelligence(testAgent);
 
   console.log('\nProcessed operational_metrics:');
   console.log(JSON.stringify(processed.operational_metrics, null, 2));

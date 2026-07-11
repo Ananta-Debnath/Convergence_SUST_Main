@@ -1,5 +1,6 @@
 const fs = require('fs/promises');
 const path = require('path');
+const seedData = require('./seedData.json');
 
 let sql;
 let neonClientFactory;
@@ -37,16 +38,21 @@ async function ensureJsonDb() {
 
     const now = new Date().toISOString();
     const initialData = {
-      ...DEFAULT_JSON_DB,
       meta: {
-        ...DEFAULT_JSON_DB.meta,
-        createdAt: now,
+        name: seedData.meta?.name || DEFAULT_JSON_DB.meta.name,
+        source: 'local-json',
+        createdAt: seedData.meta?.createdAt || now,
         updatedAt: now,
       },
+      agents: seedData.agents || [],
+      field_workers: seedData.field_workers || [],
+      cases: seedData.cases || [],
+      managers: seedData.managers || [],
     };
 
     await fs.mkdir(path.dirname(filePath), { recursive: true });
     await fs.writeFile(filePath, `${JSON.stringify(initialData, null, 2)}\n`);
+    console.log('[DB] data.json not found — initialized from seedData.json');
   }
 
   return filePath;
