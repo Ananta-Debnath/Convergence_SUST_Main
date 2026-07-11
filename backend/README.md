@@ -1,7 +1,8 @@
 # Convergence Backend
 
 Node.js / Express backend for the Convergence SUST Prelims hackathon project.
-PostgreSQL is hosted externally on [Neon](https://neon.tech).
+Local JSON is the default primary data source. PostgreSQL through
+[Neon](https://neon.tech) is still available as an optional integration.
 
 ## Deploying to Render
 
@@ -16,10 +17,8 @@ Service using the project `Dockerfile`.
 3. Render will detect `render.yaml` and pre-fill the service config.
    `rootDir` is set to `backend` and `runtime` to `docker`, so Render
    builds the image from `./Dockerfile`.
-4. When prompted for `DATABASE_URL`, paste your Neon connection string
-   (from the Neon console → Project → Connection Details). It is
-   declared with `sync: false` so the Blueprint apply does not fail
-   when the value is absent from the repo.
+4. `DATABASE_URL` is optional. Add it in the Render dashboard only if you
+   want to test or use Neon/Postgres.
 5. Click **Apply**. Render installs deps via the `Dockerfile`, runs
    `node src/index.js`, and assigns a `*.onrender.com` URL.
 
@@ -50,7 +49,7 @@ Service using the project `Dockerfile`.
 
 ```bash
 cd backend
-cp .env.example .env       # fill in DATABASE_URL from your Neon project
+cp .env.example .env       # optional local overrides
 npm install
 npm run dev                # nodemon
 ```
@@ -74,12 +73,14 @@ docker build -t convergence-backend .
 docker run --rm -p 3000:3000 --env-file .env convergence-backend
 # in another terminal:
 curl http://localhost:3000/health
-curl http://localhost:3000/test-db   # requires a real DATABASE_URL
+curl http://localhost:3000/test-db
+curl http://localhost:3000/test-sql-db   # optional; requires DATABASE_URL
 ```
 
 ## Health endpoints
 
 - `GET /health` — process liveness; always 200 if the server is up.
-- `GET /test-db` — exercises the Neon connection; returns 200 on
-  success or 500 with `db: "disconnected"` if `DATABASE_URL` is
-  missing or invalid.
+- `GET /test-db` — exercises the primary source. By default this is the
+  local JSON file, so it does not require `DATABASE_URL`.
+- `GET /test-sql-db` — optional Neon/Postgres probe; returns 500 if
+  `DATABASE_URL` is missing or invalid.

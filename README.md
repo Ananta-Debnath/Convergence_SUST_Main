@@ -1,15 +1,15 @@
 # Convergence_SUST_Preli
 
 Node.js / Express backend for the **Convergence SUST Prelims** hackathon project.
-PostgreSQL is hosted externally on [Neon](https://neon.tech), and the service is
-designed to be deployed to [Render](https://render.com) as a Docker-based Web
-Service.
+The backend uses a local JSON file as its primary data source by default, with
+optional PostgreSQL access through [Neon](https://neon.tech). It is designed to
+be deployed to [Render](https://render.com) as a Docker-based Web Service.
 
 ## Tech stack
 
 - **Runtime:** Node.js 20 (LTS)
 - **Framework:** Express 4
-- **Database:** Neon serverless Postgres via `@neondatabase/serverless`
+- **Data source:** Local JSON file by default; optional Neon serverless Postgres
 - **Config:** `dotenv` for local development; real env vars on Render
 - **Container:** Multi-stage `Dockerfile` (Alpine), non-root `node` user
 - **Deploy target:** Render (Blueprint via `render.yaml`, runtime: `docker`)
@@ -36,7 +36,7 @@ Service.
 
 ```bash
 cd backend
-cp .env.example .env       # paste your Neon DATABASE_URL
+cp .env.example .env       # optional local overrides
 npm install
 npm run dev                # nodemon on :3000
 ```
@@ -45,7 +45,8 @@ Quick smoke-test:
 
 ```bash
 curl http://localhost:3000/health
-curl http://localhost:3000/test-db   # requires a real DATABASE_URL
+curl http://localhost:3000/test-db
+curl http://localhost:3000/test-sql-db   # optional; requires DATABASE_URL
 ```
 
 ## Local development (Docker)
@@ -60,7 +61,7 @@ docker run --rm -p 3000:3000 --env-file backend/.env convergence-backend
 ```
 
 - `EXPOSE 3000` is set in the image; `--env-file` is the recommended way
-  to inject `DATABASE_URL` without baking it into the image.
+  to inject optional runtime settings without baking them into the image.
 - The image includes a `HEALTHCHECK` that pings `/health`, so
   `docker ps` will show `(healthy)` once the app is up.
 
@@ -77,10 +78,8 @@ Service using the project `Dockerfile`.
 3. Render will detect `render.yaml` and pre-fill the service config.
    `rootDir` is set to `backend` and `runtime` to `docker`, so Render
    builds the image from `backend/Dockerfile`.
-4. When prompted for `DATABASE_URL`, paste your Neon connection string
-   (Neon console → Project → Connection Details). It is declared with
-   `sync: false` so the Blueprint apply does not fail if the secret is
-   not in the repo.
+4. `DATABASE_URL` is optional. Add it in the Render dashboard only if you
+   want to test or use Neon/Postgres.
 5. Click **Apply**. Render builds the Docker image, starts the
    service, and assigns a `*.onrender.com` URL.
 
@@ -108,26 +107,29 @@ Service using the project `Dockerfile`.
 
 ## Environment variables
 
-| Key           | Required | Where set                         | Notes                                       |
-| ------------- | -------- | --------------------------------- | ------------------------------------------- |
-| `DATABASE_URL`| yes      | Render dashboard (sync: `false`)  | Neon connection string, `sslmode=require`.  |
-| `NODE_ENV`    | no       | Render (`production`)             | Set in `render.yaml`.                       |
-| `PORT`        | no       | Render auto                       | Injected at runtime; `src/index.js` reads it.|
+| Key            | Required | Where set                         | Notes                                      |
+| -------------- | -------- | --------------------------------- | ------------------------------------------ |
+| `DB_SOURCE`    | no       | `.env` or Render                  | Defaults to `json`; set `neon` for Postgres primary checks. |
+| `JSON_DB_PATH` | no       | `.env` or Render                  | Defaults to `backend/src/database/data.json`. |
+| `DATABASE_URL` | no       | Render dashboard (sync: `false`)  | Optional Neon connection string.           |
+| `NODE_ENV`     | no       | Render (`production`)             | Set in `render.yaml`.                      |
+| `PORT`         | no       | Render auto                       | Injected at runtime; `src/index.js` reads it.|
 
 ## Health endpoints
 
 - `GET /health` — process liveness; always 200 if the server is up.
   Used by both Render and the Docker `HEALTHCHECK`.
-- `GET /test-db` — exercises the Neon connection; returns 200 on
-  success or 500 with `db: "disconnected"` if `DATABASE_URL` is
-  missing or invalid.
+- `GET /test-db` — exercises the primary source. By default this is the
+  local JSON file, so it does not require `DATABASE_URL`.
+- `GET /test-sql-db` — optional Neon/Postgres probe; returns 500 if
+  `DATABASE_URL` is missing or invalid.
 
 ## Troubleshooting
 
 - **Build fails with "Cannot find module ..."** → make sure `npm ci`
   ran against the latest `package-lock.json`. Locally:
   `cd backend && rm -rf node_modules && npm ci`.
-- **Container exits immediately** → check Render logs; most often a
-  missing or malformed `DATABASE_URL`.
+- **`/test-sql-db` returns 500** → check that `DATABASE_URL` is present
+  and valid.
 - **`/health` returns 500** → confirm the app started (Render logs)
   and that `PORT` is being read from the environment.

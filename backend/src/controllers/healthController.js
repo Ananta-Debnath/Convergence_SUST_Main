@@ -1,4 +1,8 @@
-const { getSql } = require('../database/db');
+const {
+  getPrimaryDbSource,
+  testPrimaryDbConnection,
+  testSqlConnection,
+} = require('../database/db');
 
 const getHealth = (req, res) => {
   res.status(200).json({
@@ -10,14 +14,13 @@ const getHealth = (req, res) => {
 
 const testDb = async (req, res) => {
   try {
-    const sql = getSql();
-    const result = await sql`SELECT NOW() AS now, version() AS version`;
-    const row = result[0] || {};
+    const result = await testPrimaryDbConnection();
+
     res.status(200).json({
       status: 'ok',
       db: 'connected',
-      now: row.now,
-      version: row.version,
+      primary: getPrimaryDbSource(),
+      ...result,
     });
   } catch (err) {
     res.status(500).json({
@@ -28,4 +31,23 @@ const testDb = async (req, res) => {
   }
 };
 
-module.exports = { getHealth, testDb };
+const testSqlDb = async (req, res) => {
+  try {
+    const result = await testSqlConnection();
+
+    res.status(200).json({
+      status: 'ok',
+      db: 'connected',
+      ...result,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: 'error',
+      db: 'disconnected',
+      source: 'neon',
+      message: err.message,
+    });
+  }
+};
+
+module.exports = { getHealth, testDb, testSqlDb };

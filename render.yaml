@@ -14,7 +14,3 @@ services:
     envVars:
       - key: NODE_ENV
         value: production
-      # DATABASE_URL must be set in the Render dashboard (sync: false so a
-      # missing secret in the repo doesn't fail the Blueprint apply).
-      - key: DATABASE_URL
-        sync: false
