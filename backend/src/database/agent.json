@@ -1,0 +1,29 @@
+{
+  "agent_profile": {
+    "agent_id": "AGT-8472",
+    "business_name": "Molla Telecom",
+    "area_name": "Sylhet Sadar",
+    "gps_coordinates": {
+      "latitude": 24.9045,
+      "longitude": 91.8611
+    },
+    "status": "active",
+    "last_updated": "2026-07-11T11:50:00+06:00"
+  },
+  "current_balances": {
+    "shared_physical_cash": 125000.00,
+    "provider_e_money": {
+      "bKash": 15000.00,
+      "Nagad": 8500.00,
+      "Rocket": 32000.00
+    }
+  },
+  "operational_metrics": {
+    "daily_transaction_count": 142,
+    "projected_cash_shortage_window_mins": null,
+    "projected_emoney_shortage": {
+      "provider": "Nagad",
+      "estimated_window_mins": 45
+    }
+  }
+}
