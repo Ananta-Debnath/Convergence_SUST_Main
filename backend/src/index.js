@@ -14,6 +14,7 @@ const fieldWorkerRoute = require('./routes/fieldWorkerRoute.js');
 const managerRoute = require('./routes/managerRoute.js');
 const { readJsonDb } = require('./database/db.js');
 const { processAndSaveAgent } = require('./intelligence/index.js');
+const alertRoute = require('./routes/alertRoute.js');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,6 +23,7 @@ app.use(express.json());
 app.use('/', healthRoutes);
 app.use('/', agentRoute);
 app.use('/', caseRoute);
+app.use('/', alertRoute);
 app.use('/', fieldWorkerRoute);
 app.use('/', managerRoute);
 
