@@ -8,7 +8,43 @@ import {
   MapPinned,
 } from 'lucide-react';
 
-function AgentPage({ activeAgent, providerBalances, alerts, physicalCash, coverage, formatBDT }) {
+function AgentPage({ agent, cases, formatBDT }) {
+  const physicalCash  = agent?.balances?.shared_physical_cash ?? 0;
+  const bKashBalance  = agent?.balances?.provider_e_money?.bKash  ?? 0;
+  const nagadBalance  = agent?.balances?.provider_e_money?.Nagad  ?? 0;
+  const rocketBalance = agent?.balances?.provider_e_money?.Rocket ?? 0;
+
+  const predictions = agent?.operational_metrics?.liquidity_predictions ?? {};
+  const demandFromPrediction = (key, balance) => {
+    const rate = predictions[key]?.net_drain_rate_per_min;
+    if (rate && rate > 0) return Math.round(rate * 30);
+    return Math.round(balance * 1.5) || 1;
+  };
+
+  const providerBalances = [
+    { name: 'bKash',  balance: bKashBalance,  demand: demandFromPrediction('bKash',  bKashBalance)  },
+    { name: 'Nagad',  balance: nagadBalance,   demand: demandFromPrediction('Nagad',  nagadBalance)  },
+    { name: 'Rocket', balance: rocketBalance,  demand: demandFromPrediction('Rocket', rocketBalance) },
+  ].map((provider) => {
+    const percent = Math.min(Math.round((provider.balance / provider.demand) * 100), 130);
+    let status = 'Stable';
+    if (percent < 50) status = 'Pressure';
+    else if (percent < 80) status = 'Watch';
+    return { ...provider, percent, status };
+  });
+
+  const totalBalance = providerBalances.reduce((sum, p) => sum + p.balance, 0);
+  const totalDemand  = providerBalances.reduce((sum, p) => sum + p.demand,  0);
+  const coverage     = totalDemand > 0 ? Math.round((totalBalance / totalDemand) * 100) : 0;
+
+  const alerts = (agent?.active_alerts ?? []).map((a) => ({
+    id:       a.alert_id,
+    title:    a.title || 'System Alert',
+    detail:   a.message_en || a.evidence || 'No details provided',
+    owner:    a.responsible_role || 'Operations',
+    severity: a.severity || 'Medium',
+  }));
+
   return (
     <>
       <section className="summary-grid" aria-label="Agent operational summary">
@@ -30,7 +66,7 @@ function AgentPage({ activeAgent, providerBalances, alerts, physicalCash, covera
         <article className="metric">
           <MapPinned size={22} />
           <span>Area</span>
-          <strong>{activeAgent?.area_name ?? 'Unassigned'}</strong>
+          <strong>{agent?.area_name ?? 'Unassigned'}</strong>
         </article>
       </section>
 
@@ -73,19 +109,23 @@ function AgentPage({ activeAgent, providerBalances, alerts, physicalCash, covera
           </div>
 
           <div className="alert-list">
-            {alerts.map((alert) => (
-              <article className="alert-item" key={alert.id || alert.title}>
-                <div>
-                  <span className={`severity ${alert.severity.toLowerCase()}`}>{alert.severity}</span>
-                  <h3>{alert.title}</h3>
-                  <p>{alert.detail}</p>
-                </div>
-                <div className="owner">
-                  <span>{alert.owner}</span>
-                  <ArrowRight size={18} />
-                </div>
-              </article>
-            ))}
+            {alerts.length > 0 ? (
+              alerts.map((alert) => (
+                <article className="alert-item" key={alert.id || alert.title}>
+                  <div>
+                    <span className={`severity ${alert.severity.toLowerCase()}`}>{alert.severity}</span>
+                    <h3>{alert.title}</h3>
+                    <p>{alert.detail}</p>
+                  </div>
+                  <div className="owner">
+                    <span>{alert.owner}</span>
+                    <ArrowRight size={18} />
+                  </div>
+                </article>
+              ))
+            ) : (
+              <p style={{ color: '#55706d', fontStyle: 'italic', padding: '16px 0' }}>No active alerts recorded.</p>
+            )}
           </div>
         </div>
 
@@ -99,8 +139,8 @@ function AgentPage({ activeAgent, providerBalances, alerts, physicalCash, covera
           </div>
 
           <div className="alert-list">
-            {activeAgent?.recent_transactions && activeAgent.recent_transactions.length > 0 ? (
-              activeAgent.recent_transactions.map((tx) => (
+            {agent?.recent_transactions?.length > 0 ? (
+              agent.recent_transactions.map((tx) => (
                 <article className="alert-item" key={tx.transaction_id}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

@@ -7,7 +7,12 @@ import {
   UserCheck,
 } from 'lucide-react';
 
-function WorkerPage({ activeWorker, cases, workerCaseCount }) {
+function WorkerPage({ agent: activeWorker, cases }) {
+  const coveredAreas = activeWorker?.routing_logic?.covered_areas ?? activeWorker?.covered_areas ?? [];
+  const assignedCases = activeWorker?.active_workload?.assigned_cases ?? activeWorker?.assigned_cases ?? [];
+  const unassignedCases = activeWorker?.active_workload?.unassigned_cases ?? activeWorker?.unassigned_cases ?? [];
+  const workerCaseCount = assignedCases.length + unassignedCases.length;
+
   return (
     <>
       <section className="summary-grid" aria-label="Field worker summary">
@@ -29,7 +34,7 @@ function WorkerPage({ activeWorker, cases, workerCaseCount }) {
         <article className="metric">
           <MapPinned size={22} />
           <span>Coverage</span>
-          <strong>{activeWorker.covered_areas.length} zones</strong>
+          <strong>{coveredAreas.length} zones</strong>
         </article>
       </section>
 
@@ -43,7 +48,7 @@ function WorkerPage({ activeWorker, cases, workerCaseCount }) {
             <MapPinned size={22} />
           </div>
           <div className="balance-list">
-            {activeWorker.covered_areas.map((area) => (
+            {coveredAreas.map((area) => (
               <article className="balance-row" key={area}>
                 <div className="row-top">
                   <strong>{area}</strong>
@@ -67,9 +72,9 @@ function WorkerPage({ activeWorker, cases, workerCaseCount }) {
             <ClipboardList size={22} />
           </div>
           <div className="alert-list">
-            {[...activeWorker.assigned_cases, ...activeWorker.unassigned_cases].map((caseId) => {
+            {[...assignedCases, ...unassignedCases].map((caseId) => {
               const item = cases.find((c) => c.case_id === caseId);
-              const assigned = activeWorker.assigned_cases.includes(caseId);
+              const assigned = assignedCases.includes(caseId);
               return (
                 <article className="alert-item" key={caseId}>
                   <div>

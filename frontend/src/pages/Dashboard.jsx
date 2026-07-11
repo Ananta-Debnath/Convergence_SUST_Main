@@ -59,7 +59,6 @@ function Dashboard() {
         setFieldWorkers(workersData);
         setManagers(managersData);
 
-        // Resolve initial selections — fall back to first item if route ID not found or not set
         setSelectedAgentId((prev) => {
           const exists = agentsData.some((a) => a.agent_id === prev);
           const next = exists ? prev : agentsData[0]?.agent_id ?? '';
@@ -232,68 +231,10 @@ function Dashboard() {
     );
   }
 
-  // --- Derive active entities ---
-  const activeAgent = agents.find((a) => a.agent_id === selectedAgentId) ?? agents[0];
-  const activeWorker = fieldWorkers.find((w) => w.worker_id === selectedWorkerId) ?? fieldWorkers[0];
+  // Resolve which entity is active — no processing, just a lookup
+  const activeAgent   = agents.find((a) => a.agent_id   === selectedAgentId)   ?? agents[0];
+  const activeWorker  = fieldWorkers.find((w) => w.worker_id  === selectedWorkerId)  ?? fieldWorkers[0];
   const activeManager = managers.find((m) => m.manager_id === selectedManagerId) ?? managers[0];
-
-  // --- Agent page derived data ---
-  const physicalCash = activeAgent?.balances?.shared_physical_cash ?? 0;
-  const bKashBalance = activeAgent?.balances?.provider_e_money?.bKash ?? 0;
-  const nagadBalance = activeAgent?.balances?.provider_e_money?.Nagad ?? 0;
-  const rocketBalance = activeAgent?.balances?.provider_e_money?.Rocket ?? 0;
-
-  const providerBalances = [
-    { name: 'bKash', balance: bKashBalance, demand: 92000 },
-    { name: 'Nagad', balance: nagadBalance, demand: 76000 },
-    { name: 'Rocket', balance: rocketBalance, demand: 39000 },
-  ].map((provider) => {
-    const percent = Math.min(Math.round((provider.balance / provider.demand) * 100), 130);
-    let status = 'Stable';
-    if (percent < 50) status = 'Pressure';
-    else if (percent < 80) status = 'Watch';
-    return { ...provider, percent, status };
-  });
-
-  const totalBalance = providerBalances.reduce((sum, p) => sum + p.balance, 0);
-  const totalDemand = providerBalances.reduce((sum, p) => sum + p.demand, 0);
-  const coverage = totalDemand > 0 ? Math.round((totalBalance / totalDemand) * 100) : 0;
-
-  // Use agent's own active_alerts if present, otherwise derive from cases
-  const alerts = activeAgent?.active_alerts?.length
-    ? activeAgent.active_alerts.map((a) => ({
-        id: a.alert_id,
-        title: a.title,
-        detail: a.message_en || a.evidence || 'No details provided',
-        owner: a.responsible_role || 'Operations',
-        severity: a.severity,
-      }))
-    : cases
-        .filter((c) => c.agent_id === activeAgent?.agent_id)
-        .map((c) => {
-          let title = 'System Alert';
-          let owner = 'Operations';
-          let severity = 'Medium';
-          if (c.alert_type === 'unusual_activity') { title = 'Repeated same-amount cash-out pattern'; severity = 'Medium'; owner = 'Risk analyst'; }
-          else if (c.alert_type === 'liquidity_pressure') { title = 'Nagad balance may run short'; severity = 'High'; owner = 'Field officer'; }
-          return { id: c.case_id, title, detail: c.evidence || 'No details provided', owner, severity };
-        });
-
-  // --- Worker page derived data ---
-  // DB schema uses routing_logic.covered_areas and active_workload.{assigned,unassigned}_cases
-  const workerCoveredAreas = activeWorker?.routing_logic?.covered_areas ?? activeWorker?.covered_areas ?? [];
-  const workerAssignedCases = activeWorker?.active_workload?.assigned_cases ?? activeWorker?.assigned_cases ?? [];
-  const workerUnassignedCases = activeWorker?.active_workload?.unassigned_cases ?? activeWorker?.unassigned_cases ?? [];
-  const workerCaseCount = workerAssignedCases.length + workerUnassignedCases.length;
-
-  // --- Manager page derived data ---
-  // DB schema uses monitoring_dashboard.{system_health_status, active_bottlenecks} and flagged_entities[]
-  const managerHealthStatus = activeManager?.monitoring_dashboard?.system_health_status ?? activeManager?.system_health_status ?? 'unknown';
-  const managerBottlenecks = (activeManager?.monitoring_dashboard?.active_bottlenecks ?? activeManager?.active_bottlenecks ?? [])
-    .map((b) => typeof b === 'string' ? b : `${b.location}: ${b.issue_type} (${b.severity})`);
-  const managerFlaggedEntities = (activeManager?.flagged_entities ?? [])
-    .map((e) => typeof e === 'string' ? { entity_id: e, flag_reason: '' } : e);
-  const managerIssueCount = managerBottlenecks.length + managerFlaggedEntities.length;
 
   const roleCopy = {
     agent: {
@@ -313,36 +254,16 @@ function Dashboard() {
   const renderActivePage = () => {
     if (activeRole === 'worker') {
       if (!activeWorker) return <EmptyState message="No field worker data available." />;
-      return (
-        <WorkerPage
-          activeWorker={{ ...activeWorker, covered_areas: workerCoveredAreas, assigned_cases: workerAssignedCases, unassigned_cases: workerUnassignedCases }}
-          cases={cases}
-          workerCaseCount={workerCaseCount}
-        />
-      );
+      return <WorkerPage agent={activeWorker} cases={cases} />;
     }
 
     if (activeRole === 'manager') {
       if (!activeManager) return <EmptyState message="No manager data available." />;
-      return (
-        <ManagerPage
-          activeManager={{ ...activeManager, system_health_status: managerHealthStatus, active_bottlenecks: managerBottlenecks, flagged_entities: managerFlaggedEntities }}
-          managerIssueCount={managerIssueCount}
-        />
-      );
+      return <ManagerPage agent={activeManager} />;
     }
 
     if (!activeAgent) return <EmptyState message="No agent data available." />;
-    return (
-      <AgentPage
-        activeAgent={activeAgent}
-        providerBalances={providerBalances}
-        alerts={alerts}
-        physicalCash={physicalCash}
-        coverage={coverage}
-        formatBDT={formatBDT}
-      />
-    );
+    return <AgentPage agent={activeAgent} cases={cases} formatBDT={formatBDT} />;
   };
 
   return (
@@ -364,3 +285,4 @@ function Dashboard() {
 }
 
 export default Dashboard;
+

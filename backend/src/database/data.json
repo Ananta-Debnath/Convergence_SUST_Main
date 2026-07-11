@@ -1,9 +1,9 @@
 {
   "meta": {
     "name": "convergence-backend",
-    "createdAt": "2026-07-11T00:00:00.000Z",
     "source": "local-json",
-    "updatedAt": "2026-07-11T10:17:38.386Z"
+    "createdAt": "2026-07-11T00:00:00.000Z",
+    "updatedAt": "2026-07-11T10:57:06.115Z"
   },
   "agents": [
     {
@@ -23,7 +23,99 @@
         "daily_transaction_count": 142,
         "projected_emoney_shortage": {
           "provider": "Nagad",
-          "estimated_window_mins": 45
+          "estimated_window_mins": 127,
+          "eta": "02:07 PM",
+          "status": "MONITORING"
+        },
+        "liquidity_predictions": {
+          "shared_physical_cash": {
+            "status": "MONITORING",
+            "minutes_remaining": 469,
+            "eta": "07:49 PM",
+            "net_drain_rate_per_min": 266.67,
+            "confidence": "MODERATE",
+            "evidence": "Draining at 266.67 BDT/min across 2 transactions."
+          },
+          "bKash": {
+            "status": "HEALTHY",
+            "minutes_remaining": null,
+            "eta": null,
+            "net_drain_rate_per_min": -333.33,
+            "confidence": "LOW (Sparse Data)",
+            "evidence": "Stable or growing (Net flow: +10000 BDT)."
+          },
+          "Nagad": {
+            "status": "MONITORING",
+            "minutes_remaining": 127,
+            "eta": "02:07 PM",
+            "net_drain_rate_per_min": 66.67,
+            "confidence": "LOW (Sparse Data)",
+            "evidence": "Draining at 66.67 BDT/min across 1 transactions."
+          },
+          "Rocket": {
+            "status": "HEALTHY",
+            "minutes_remaining": null,
+            "eta": null,
+            "net_drain_rate_per_min": 0,
+            "confidence": "LOW (Sparse Data)",
+            "evidence": "Stable or growing (Net flow: +0 BDT)."
+          }
+        },
+        "prediction_metadata": {
+          "calculated_at": "2026-07-11T06:00:00.000Z",
+          "window_mins_used": 30
+        },
+        "risk_analysis": {
+          "evaluated_at": "2026-07-11T10:57:06.114Z",
+          "primary_risk_provider": "bKash",
+          "overall_risk_score": 42,
+          "overall_risk_tier": "ELEVATED",
+          "advisory_notice": "Activity volume is higher than standard baseline averages.",
+          "evidence": "[bKash] Analyzed 1 transactions. Flagged because 1 of 1 requests were for roughly ~10000 BDT, originating from 1 distinct account identifier(s)[cite: 1].",
+          "system_uncertainty": "Low to Moderate - Likely standard market traffic fluctuations.",
+          "provider_breakdown": {
+            "bKash": {
+              "score": 42,
+              "tier": "ELEVATED",
+              "advisory_notice": "Activity volume is higher than standard baseline averages.",
+              "evidence": "Analyzed 1 transactions. Flagged because 1 of 1 requests were for roughly ~10000 BDT, originating from 1 distinct account identifier(s)[cite: 1].",
+              "uncertainty": "Low to Moderate - Likely standard market traffic fluctuations.",
+              "metrics": {
+                "velocity_score": 5,
+                "uniformity_score": 100,
+                "concentration_score": 0
+              }
+            },
+            "Nagad": {
+              "score": 42,
+              "tier": "ELEVATED",
+              "advisory_notice": "Activity volume is higher than standard baseline averages.",
+              "evidence": "Analyzed 1 transactions. Flagged because 1 of 1 requests were for roughly ~2000 BDT, originating from 1 distinct account identifier(s)[cite: 1].",
+              "uncertainty": "Low to Moderate - Likely standard market traffic fluctuations.",
+              "metrics": {
+                "velocity_score": 5,
+                "uniformity_score": 100,
+                "concentration_score": 0
+              }
+            },
+            "Rocket": {
+              "score": 0,
+              "tier": "NORMAL",
+              "advisory_notice": "No recent transactions recorded.",
+              "evidence": "Activity volume is 0.",
+              "uncertainty": "None.",
+              "metrics": {
+                "velocity_score": 0,
+                "uniformity_score": 0,
+                "concentration_score": 0
+              }
+            }
+          },
+          "aggregate_metrics": {
+            "velocity_score": 3,
+            "uniformity_score": 50,
+            "concentration_score": 0
+          }
         }
       },
       "recent_transactions": [
@@ -45,307 +137,7 @@
           "status": "success",
           "event_flags": []
         }
-      ]
-    },
-    {
-      "agent_id": "AGT-TEST-99",
-      "business_name": "Sylhet Telecom Hub",
-      "area_name": "Sylhet Sadar",
-      "last_updated": "2026-07-11T10:17:21.492Z",
-      "balances": {
-        "shared_physical_cash": 50000,
-        "provider_e_money": {
-          "bKash": 3000,
-          "Nagad": 20000,
-          "Rocket": 15000
-        }
-      },
-      "recent_transactions": [
-        {
-          "transaction_id": "TXN-T01",
-          "provider_id": "bKash",
-          "amount": 1500,
-          "time": "2026-07-11T10:07:21.493Z",
-          "transaction_type": "cash-in",
-          "status": "success"
-        },
-        {
-          "transaction_id": "TXN-T02",
-          "provider_id": "bKash",
-          "amount": 8000,
-          "time": "2026-07-11T10:09:21.493Z",
-          "transaction_type": "cash-out",
-          "status": "success"
-        },
-        {
-          "transaction_id": "TXN-T03",
-          "provider_id": "bKash",
-          "amount": 8000,
-          "time": "2026-07-11T10:11:21.493Z",
-          "transaction_type": "cash-out",
-          "status": "success"
-        },
-        {
-          "transaction_id": "TXN-T04",
-          "provider_id": "bKash",
-          "amount": 8000,
-          "time": "2026-07-11T10:13:21.493Z",
-          "transaction_type": "cash-out",
-          "status": "success"
-        },
-        {
-          "transaction_id": "TXN-T05",
-          "provider_id": "bKash",
-          "amount": 8000,
-          "time": "2026-07-11T10:15:21.493Z",
-          "transaction_type": "cash-out",
-          "status": "success"
-        }
       ],
-      "operational_metrics": {
-        "liquidity_predictions": {
-          "shared_physical_cash": {
-            "status": "CRITICAL_SHORTAGE",
-            "minutes_remaining": 49,
-            "eta": "05:06 PM",
-            "net_drain_rate_per_min": 1016.67,
-            "confidence": "HIGH",
-            "evidence": "Draining at 1016.67 BDT/min across 5 transactions."
-          },
-          "bKash": {
-            "status": "HEALTHY",
-            "minutes_remaining": null,
-            "eta": null,
-            "net_drain_rate_per_min": -1016.67,
-            "confidence": "HIGH",
-            "evidence": "Stable or growing (Net flow: +30500 BDT)."
-          },
-          "Nagad": {
-            "status": "HEALTHY",
-            "minutes_remaining": null,
-            "eta": null,
-            "net_drain_rate_per_min": 0,
-            "confidence": "LOW (Sparse Data)",
-            "evidence": "Stable or growing (Net flow: +0 BDT)."
-          },
-          "Rocket": {
-            "status": "HEALTHY",
-            "minutes_remaining": null,
-            "eta": null,
-            "net_drain_rate_per_min": 0,
-            "confidence": "LOW (Sparse Data)",
-            "evidence": "Stable or growing (Net flow: +0 BDT)."
-          }
-        },
-        "projected_emoney_shortage": {
-          "provider": "shared_physical_cash",
-          "estimated_window_mins": 49,
-          "eta": "05:06 PM",
-          "status": "CRITICAL_SHORTAGE"
-        },
-        "prediction_metadata": {
-          "calculated_at": "2026-07-11T10:17:21.492Z",
-          "window_mins_used": 30
-        },
-        "risk_analysis": {
-          "evaluated_at": "2026-07-11T10:17:21.494Z",
-          "primary_risk_provider": "bKash",
-          "overall_risk_score": 40,
-          "overall_risk_tier": "ELEVATED",
-          "advisory_notice": "Activity volume is higher than standard baseline averages.",
-          "evidence": "[bKash] Analyzed 5 transactions. Flagged because 4 of 5 requests were for roughly ~8000 BDT, originating from 5 distinct account identifier(s)[cite: 1].",
-          "system_uncertainty": "Low to Moderate - Likely standard market traffic fluctuations.",
-          "provider_breakdown": {
-            "bKash": {
-              "score": 40,
-              "tier": "ELEVATED",
-              "advisory_notice": "Activity volume is higher than standard baseline averages.",
-              "evidence": "Analyzed 5 transactions. Flagged because 4 of 5 requests were for roughly ~8000 BDT, originating from 5 distinct account identifier(s)[cite: 1].",
-              "uncertainty": "Low to Moderate - Likely standard market traffic fluctuations.",
-              "metrics": {
-                "velocity_score": 25,
-                "uniformity_score": 80,
-                "concentration_score": 0
-              }
-            },
-            "Nagad": {
-              "score": 0,
-              "tier": "NORMAL",
-              "advisory_notice": "No recent transactions recorded.",
-              "evidence": "Activity volume is 0.",
-              "uncertainty": "None.",
-              "metrics": {
-                "velocity_score": 0,
-                "uniformity_score": 0,
-                "concentration_score": 0
-              }
-            },
-            "Rocket": {
-              "score": 0,
-              "tier": "NORMAL",
-              "advisory_notice": "No recent transactions recorded.",
-              "evidence": "Activity volume is 0.",
-              "uncertainty": "None.",
-              "metrics": {
-                "velocity_score": 0,
-                "uniformity_score": 0,
-                "concentration_score": 0
-              }
-            }
-          },
-          "aggregate_metrics": {
-            "velocity_score": 8,
-            "uniformity_score": 80,
-            "concentration_score": 0
-          }
-        }
-      },
-      "active_alerts": [
-        {
-          "alert_id": "ALT-LIQ-SHA-1493",
-          "dedup_key": "AGT-TEST-99:LIQUIDITY_PRESSURE:shared_physical_cash:CRITICAL_SHORTAGE",
-          "timestamp": "2026-07-11T10:17:21.493Z",
-          "alert_type": "LIQUIDITY_PRESSURE",
-          "severity": "CRITICAL",
-          "provider": "shared_physical_cash",
-          "agent_id": "AGT-TEST-99",
-          "business_name": "Sylhet Telecom Hub",
-          "target_eta_timestamp": "2026-07-11T11:06:21.493Z",
-          "initial_minutes_remaining": 49,
-          "title": "⌛ Projected Shortage: shared_physical_cash",
-          "message_en": "At current transaction velocity, your shared_physical_cash balance will be depleted in ~49 minutes (by 05:06 PM).",
-          "message_banglish": "Bortoman len-den er dhara anujayi ar matro 49 minute-er moddhe (est. 05:06 PM) apnar shared_physical_cash balance shesh hoye jete pare!",
-          "message_bn": "বর্তমান লেনদেনের ধারা অনুযায়ী আগামী 49 মিনিটের মধ্যে (05:06 PM) আপনার shared_physical_cash ব্যালেন্স শেষ হয়ে যেতে পারে।",
-          "evidence": "Draining at 1016.67 BDT/min across 5 transactions.",
-          "uncertainty": "Data Confidence: HIGH",
-          "recommended_action": "Arrange additional funds. If trapped at shop due to crowd, click below to forward this alert to the shared_physical_cash Field Officer to request a distributor refill.",
-          "workflow_status": "NEW_UNASSIGNED",
-          "can_forward": true,
-          "routing_target": "ALL_PROVIDERS_TERRITORY_OPS_SYLHET_SADAR",
-          "responsible_role": "Territory Manager (Sylhet Sadar)"
-        }
-      ]
-    },
-    {
-      "agent_id": "AGT-CURL-TEST",
-      "business_name": "Curl Test Store",
-      "area_name": "Sylhet Sadar",
-      "balances": {
-        "shared_physical_cash": 120000,
-        "provider_e_money": {
-          "bKash": 10000,
-          "Nagad": 5000,
-          "Rocket": 20000
-        }
-      },
-      "recent_transactions": [
-        {
-          "transaction_id": "TXN-C01",
-          "provider_id": "bKash",
-          "amount": 8000,
-          "time": "2026-07-11T12:10:00Z",
-          "transaction_type": "cash-out",
-          "status": "success"
-        }
-      ],
-      "operational_metrics": {
-        "liquidity_predictions": {
-          "shared_physical_cash": {
-            "status": "MONITORING",
-            "minutes_remaining": 900,
-            "eta": "07:17 AM",
-            "net_drain_rate_per_min": 133.33,
-            "confidence": "LOW (Sparse Data)",
-            "evidence": "Draining at 133.33 BDT/min across 1 transactions."
-          },
-          "bKash": {
-            "status": "HEALTHY",
-            "minutes_remaining": null,
-            "eta": null,
-            "net_drain_rate_per_min": -133.33,
-            "confidence": "LOW (Sparse Data)",
-            "evidence": "Stable or growing (Net flow: +8000 BDT)."
-          },
-          "Nagad": {
-            "status": "HEALTHY",
-            "minutes_remaining": null,
-            "eta": null,
-            "net_drain_rate_per_min": 0,
-            "confidence": "LOW (Sparse Data)",
-            "evidence": "Stable or growing (Net flow: +0 BDT)."
-          },
-          "Rocket": {
-            "status": "HEALTHY",
-            "minutes_remaining": null,
-            "eta": null,
-            "net_drain_rate_per_min": 0,
-            "confidence": "LOW (Sparse Data)",
-            "evidence": "Stable or growing (Net flow: +0 BDT)."
-          }
-        },
-        "projected_emoney_shortage": {
-          "provider": "shared_physical_cash",
-          "estimated_window_mins": 900,
-          "eta": "07:17 AM",
-          "status": "MONITORING"
-        },
-        "prediction_metadata": {
-          "calculated_at": "2026-07-11T10:17:38.384Z",
-          "window_mins_used": 60
-        },
-        "risk_analysis": {
-          "evaluated_at": "2026-07-11T10:17:38.385Z",
-          "primary_risk_provider": "bKash",
-          "overall_risk_score": 42,
-          "overall_risk_tier": "ELEVATED",
-          "advisory_notice": "Activity volume is higher than standard baseline averages.",
-          "evidence": "[bKash] Analyzed 1 transactions. Flagged because 1 of 1 requests were for roughly ~8000 BDT, originating from 1 distinct account identifier(s)[cite: 1].",
-          "system_uncertainty": "Low to Moderate - Likely standard market traffic fluctuations.",
-          "provider_breakdown": {
-            "bKash": {
-              "score": 42,
-              "tier": "ELEVATED",
-              "advisory_notice": "Activity volume is higher than standard baseline averages.",
-              "evidence": "Analyzed 1 transactions. Flagged because 1 of 1 requests were for roughly ~8000 BDT, originating from 1 distinct account identifier(s)[cite: 1].",
-              "uncertainty": "Low to Moderate - Likely standard market traffic fluctuations.",
-              "metrics": {
-                "velocity_score": 5,
-                "uniformity_score": 100,
-                "concentration_score": 0
-              }
-            },
-            "Nagad": {
-              "score": 0,
-              "tier": "NORMAL",
-              "advisory_notice": "No recent transactions recorded.",
-              "evidence": "Activity volume is 0.",
-              "uncertainty": "None.",
-              "metrics": {
-                "velocity_score": 0,
-                "uniformity_score": 0,
-                "concentration_score": 0
-              }
-            },
-            "Rocket": {
-              "score": 0,
-              "tier": "NORMAL",
-              "advisory_notice": "No recent transactions recorded.",
-              "evidence": "Activity volume is 0.",
-              "uncertainty": "None.",
-              "metrics": {
-                "velocity_score": 0,
-                "uniformity_score": 0,
-                "concentration_score": 0
-              }
-            }
-          },
-          "aggregate_metrics": {
-            "velocity_score": 2,
-            "uniformity_score": 100,
-            "concentration_score": 0
-          }
-        }
-      },
       "active_alerts": []
     }
   ],
