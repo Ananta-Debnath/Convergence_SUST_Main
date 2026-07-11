@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import {
   AlertTriangle,
   ArrowRight,
@@ -7,33 +8,7 @@ import {
   Gauge,
   ShieldCheck,
 } from 'lucide-react';
-
-const providerBalances = [
-  { name: 'bKash', balance: 128000, demand: 92000, status: 'Stable' },
-  { name: 'Nagad', balance: 64000, demand: 76000, status: 'Pressure' },
-  { name: 'Rocket', balance: 42000, demand: 39000, status: 'Watch' },
-];
-
-const alerts = [
-  {
-    title: 'Nagad balance may run short',
-    detail: 'Projected demand exceeds available e-money by 12,000 BDT.',
-    owner: 'Provider operations',
-    severity: 'High',
-  },
-  {
-    title: 'Repeated same-amount cash-out pattern',
-    detail: 'Six similar requests from nearby accounts within 18 minutes.',
-    owner: 'Risk analyst',
-    severity: 'Medium',
-  },
-  {
-    title: 'Shared cash drawer below target',
-    detail: 'Physical cash can cover 73% of estimated next-hour demand.',
-    owner: 'Field officer',
-    severity: 'Medium',
-  },
-];
+import { fetchAgents, fetchCases } from '../api';
 
 const formatBDT = (value) =>
   new Intl.NumberFormat('en-BD', {
@@ -43,9 +18,131 @@ const formatBDT = (value) =>
   }).format(value);
 
 function Dashboard() {
+  const [agents, setAgents] = useState([]);
+  const [cases, setCases] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    Promise.all([fetchAgents(), fetchCases()])
+      .then(([agentsData, casesData]) => {
+        setAgents(agentsData);
+        setCases(casesData);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error('API Fetch error:', err);
+        setError(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+
+  if (loading) {
+    return (
+      <main className="app-shell">
+        <header className="topbar">
+          <div>
+            <p className="eyebrow">SUST CSE Carnival 2026</p>
+            <h1>Super Agent Liquidity & Risk Intelligence</h1>
+          </div>
+        </header>
+        <div className="loading-container">
+          <div className="loading-spinner" />
+          <p>Loading real-time liquidity and risk telemetry...</p>
+        </div>
+      </main>
+    );
+  }
+
+  if (error) {
+    return (
+      <main className="app-shell">
+        <header className="topbar">
+          <div>
+            <p className="eyebrow">SUST CSE Carnival 2026</p>
+            <h1>Super Agent Liquidity & Risk Intelligence</h1>
+          </div>
+        </header>
+        <div className="error-container">
+          <AlertTriangle size={48} style={{ marginBottom: '16px' }} />
+          <h2>Connection Failure</h2>
+          <p>{error}</p>
+          <button 
+            className="icon-button" 
+            style={{ width: 'auto', padding: '0 20px', marginTop: '20px' }}
+            onClick={() => {
+              setLoading(true);
+              setError(null);
+              // Trigger a reload
+              window.location.reload();
+            }}
+          >
+            Retry Connection
+          </button>
+        </div>
+      </main>
+    );
+  }
+
+  const activeAgent = agents[0];
+  const physicalCash = activeAgent?.balances?.shared_physical_cash ?? 0;
+
+  const bKashBalance = activeAgent?.balances?.provider_e_money?.bKash ?? 0;
+  const nagadBalance = activeAgent?.balances?.provider_e_money?.Nagad ?? 0;
+  const rocketBalance = activeAgent?.balances?.provider_e_money?.Rocket ?? 0;
+
+  const providerBalances = [
+    { name: 'bKash', balance: bKashBalance, demand: 92000 },
+    { name: 'Nagad', balance: nagadBalance, demand: 76000 },
+    { name: 'Rocket', balance: rocketBalance, demand: 39000 },
+  ].map((provider) => {
+    const percent = Math.min(Math.round((provider.balance / provider.demand) * 100), 130);
+    let status = 'Stable';
+    if (percent < 50) {
+      status = 'Pressure';
+    } else if (percent < 80) {
+      status = 'Watch';
+    }
+    return {
+      ...provider,
+      percent,
+      status,
+    };
+  });
+
   const totalBalance = providerBalances.reduce((sum, item) => sum + item.balance, 0);
   const totalDemand = providerBalances.reduce((sum, item) => sum + item.demand, 0);
-  const coverage = Math.round((totalBalance / totalDemand) * 100);
+  const coverage = totalDemand > 0 ? Math.round((totalBalance / totalDemand) * 100) : 0;
+
+  const alerts = cases.map((c) => {
+    let title = 'System Alert';
+    let detail = c.evidence || 'No details provided';
+    let owner = 'Operations';
+    let severity = 'Medium';
+
+    if (c.alert_type === 'unusual_activity') {
+      title = 'Repeated same-amount cash-out pattern';
+      severity = 'Medium';
+      owner = 'Risk analyst';
+    } else if (c.alert_type === 'liquidity_pressure') {
+      title = 'Nagad balance may run short';
+      severity = 'High';
+      owner = 'Field officer';
+    }
+
+    if (c.owner_worker_id === 'FW-NG-9921') {
+      owner = 'Tariqul Islam';
+    }
+
+    return {
+      title,
+      detail,
+      owner,
+      severity,
+      id: c.case_id,
+    };
+  });
 
   return (
     <main className="app-shell">
@@ -63,7 +160,7 @@ function Dashboard() {
         <article className="metric">
           <Banknote size={22} />
           <span>Shared Cash</span>
-          <strong>{formatBDT(186000)}</strong>
+          <strong>{formatBDT(physicalCash)}</strong>
         </article>
         <article className="metric">
           <Gauge size={22} />
@@ -94,8 +191,6 @@ function Dashboard() {
 
           <div className="balance-list">
             {providerBalances.map((provider) => {
-              const percent = Math.min(Math.round((provider.balance / provider.demand) * 100), 130);
-
               return (
                 <article className="balance-row" key={provider.name}>
                   <div className="row-top">
@@ -103,7 +198,7 @@ function Dashboard() {
                     <span className={`status ${provider.status.toLowerCase()}`}>{provider.status}</span>
                   </div>
                   <div className="bar" aria-label={`${provider.name} coverage`}>
-                    <span style={{ width: `${Math.min(percent, 100)}%` }} />
+                    <span style={{ width: `${Math.min(provider.percent, 100)}%` }} />
                   </div>
                   <div className="row-meta">
                     <span>{formatBDT(provider.balance)} available</span>
@@ -126,7 +221,7 @@ function Dashboard() {
 
           <div className="alert-list">
             {alerts.map((alert) => (
-              <article className="alert-item" key={alert.title}>
+              <article className="alert-item" key={alert.id || alert.title}>
                 <div>
                   <span className={`severity ${alert.severity.toLowerCase()}`}>{alert.severity}</span>
                   <h3>{alert.title}</h3>
