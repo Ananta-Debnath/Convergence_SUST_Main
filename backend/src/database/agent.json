@@ -29,6 +29,7 @@
   "recent_transactions": [
     {
       "transaction_id": "TXN-9901",
+      "user_id": "01711223344",
       "provider_id": "bKash",
       "time": "2026-07-11T11:15:00Z",
       "transaction_type": "cash-out",
@@ -38,6 +39,7 @@
     },
     {
       "transaction_id": "TXN-9902",
+      "user_id": "01711223344",
       "provider_id": "Nagad",
       "time": "2026-07-11T11:22:00Z",
       "transaction_type": "cash-in",
