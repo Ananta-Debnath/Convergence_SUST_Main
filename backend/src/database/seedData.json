@@ -77,5 +77,58 @@
       "safe_language_note": "Upcoming service disruption likely.",
       "recommended_action": "Acknowledge case and advise agent to arrange e-money top-up."
     }
+  ],
+  "managers": [
+    {
+      "manager_id": "MGR-BK-SYL-01",
+      "provider_id": "bKash",
+      "managed_region": "Greater Sylhet",
+      "managed_workers": [
+        "FW-BK-101",
+        "FW-BK-102",
+        "FW-BK-103"
+      ],
+      "monitoring_dashboard": {
+        "system_health_status": "warning",
+        "active_bottlenecks": [
+          {
+            "location": "Sylhet Sadar",
+            "issue_type": "Liquidity Drain",
+            "severity": "High"
+          }
+        ]
+      },
+      "flagged_entities": [
+        {
+          "entity_id": "01711223344",
+          "entity_type": "User",
+          "flag_reason": "High frequency cash-in/cash-out loop",
+          "timestamp": "2026-07-11T10:15:00Z"
+        },
+        {
+          "entity_id": "AGT-BK-405",
+          "entity_type": "Agent",
+          "flag_reason": "Unusual night-time transaction volume",
+          "timestamp": "2026-07-11T11:30:00Z"
+        }
+      ],
+      "case_management": {
+        "active_cases": [
+          {
+            "case_id": "CASE-3001",
+            "target_entity": "01711223344",
+            "assigned_to_worker": "FW-BK-101",
+            "status": "investigating_field"
+          },
+          {
+            "case_id": "CASE-3002",
+            "target_entity": "AGT-BK-405",
+            "assigned_to_worker": "FW-BK-102",
+            "status": "pending_worker_review"
+          }
+        ],
+        "resolved_cases": []
+      }
+    }
   ]
 }
