@@ -3,7 +3,7 @@
     "name": "convergence-backend",
     "createdAt": "2026-07-11T00:00:00.000Z",
     "source": "local-json",
-    "updatedAt": "2026-07-11T07:02:07.980Z"
+    "updatedAt": "2026-07-11T07:43:40.731Z"
   },
   "agents": [
     {
@@ -25,7 +25,27 @@
           "provider": "Nagad",
           "estimated_window_mins": 45
         }
-      }
+      },
+      "recent_transactions": [
+        {
+          "transaction_id": "TXN-9901",
+          "provider_id": "bKash",
+          "time": "2026-07-11T11:15:00Z",
+          "transaction_type": "cash-out",
+          "amount": 10000,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-9902",
+          "provider_id": "Nagad",
+          "time": "2026-07-11T11:22:00Z",
+          "transaction_type": "cash-in",
+          "amount": 2000,
+          "status": "success",
+          "event_flags": []
+        }
+      ]
     }
   ],
   "field_workers": [
