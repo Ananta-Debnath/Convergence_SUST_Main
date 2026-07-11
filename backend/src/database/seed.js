@@ -14,6 +14,7 @@ async function seedJsonDb() {
     agents: seedData.agents || [],
     field_workers: seedData.field_workers || [],
     cases: seedData.cases || [],
+    managers: seedData.managers || [],
   });
 
   const result = await testJsonDbConnection();
