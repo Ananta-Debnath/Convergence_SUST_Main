@@ -46,6 +46,9 @@ const PATTERN_NAMES = Object.freeze({
   time_anomaly: 'Time Anomaly',
   balance_inconsistency: 'Balance Inconsistency',
   abnormal_failure_rate: 'Abnormal Failure Rate',
+  area_velocity_surge: 'Area Velocity Surge',
+  area_coordinated_pattern: 'Area Coordinated Pattern',
+  regional_cascade: 'Regional Cascade',
 });
 
 // Every pattern starts from a risk-informed baseline before evidence modifiers.
@@ -56,6 +59,9 @@ const BASE_SEVERITY = Object.freeze({
   time_anomaly: 64,
   balance_inconsistency: 68,
   abnormal_failure_rate: 72,
+  area_velocity_surge: 70,
+  area_coordinated_pattern: 75,
+  regional_cascade: 82,
 });
 
 // ---------------------------------------------------------------------------
@@ -336,6 +342,15 @@ function buildBanglaFallback({ pattern, agentId, entityId, metrics, transactions
     case 'abnormal_failure_rate':
       evidenceBn = `গত ${minutes} মিনিটে এজেন্ট ${agentId}-এ ধারাবাহিকভাবে ${count}টি লেনদেনের চেষ্টা ব্যর্থ হয়েছে।`;
       break;
+    case 'area_velocity_surge':
+      evidenceBn = `${entityId} এলাকায় গত ${minutes} মিনিটে ${count}টি লেনদেন হয়েছে, যা স্বাভাবিকের চেয়ে অনেক বেশি।`;
+      break;
+    case 'area_coordinated_pattern':
+      evidenceBn = `${entityId} এলাকায় ${count}টি এজেন্টে একই ধরনের অস্বাভাবিক কার্যক্রম একই সময়ে শনাক্ত হয়েছে।`;
+      break;
+    case 'regional_cascade':
+      evidenceBn = `${entityId} অঞ্চলে ${count}টি এলাকায় একই সময়ে অস্বাভাবিক কার্যক্রম শনাক্ত হয়েছে।`;
+      break;
     default:
       evidenceBn = `এজেন্ট ${agentId}-এর সাম্প্রতিক লেনদেনে অস্বাভাবিক কার্যক্রমের একটি ধরণ শনাক্ত হয়েছে।`;
   }
@@ -381,6 +396,15 @@ function buildBanglishFallback({ pattern, agentId, entityId, metrics, transactio
       break;
     case 'abnormal_failure_rate':
       evidenceBanglish = `Goto ${minutes} minute-e agent ${agentId}-e porpor ${count}ti transaction attempt fail koreche.`;
+      break;
+    case 'area_velocity_surge':
+      evidenceBanglish = `${entityId} elakay goto ${minutes} minute-e ${count}ti transaction hoyeche, ja shabhabiker cheye onek beshi.`;
+      break;
+    case 'area_coordinated_pattern':
+      evidenceBanglish = `${entityId} elakay ${count}ti agent-e eki dhoroner unusual activity eki shomoy-e detect hoyeche.`;
+      break;
+    case 'regional_cascade':
+      evidenceBanglish = `${entityId} onchole ${count}ti elakay eki shomoy-e unusual activity detect hoyeche.`;
       break;
     default:
       evidenceBanglish = `Agent ${agentId}-er shamprotik transaction-e unusual activity-r ekti pattern detect hoyeche.`;
@@ -1218,6 +1242,8 @@ async function anomalityAlert(input = {}, options = {}) {
 // Export pure functions separately so rule/severity behavior is easy to test.
 module.exports = {
   DEFAULT_CONFIG,
+  PATTERN_NAMES,
+  BASE_SEVERITY,
   GEMINI_SYSTEM_PROMPT,
   anomalityAlert,
   generateAnomalityAlerts: anomalityAlert,
