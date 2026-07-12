@@ -213,10 +213,17 @@
     },
     {
       "agent_id": "AGT-2148",
+      "agentId": "AGENT-001",
       "business_name": "Bondor Mobile Money",
       "area_name": "Bandar Bazar",
       "last_updated": "2026-07-11T12:05:00+06:00",
       "manager_id": "MGR-NG-SYL-01",
+      "sharedPhysicalCash": 8500,
+      "eMoneyBalances": {
+        "bKash": 32000,
+        "nagad": 76000,
+        "rocket": 41000
+      },
       "balances": {
         "shared_physical_cash": 285000,
         "provider_e_money": {
@@ -865,6 +872,253 @@
       ],
       "active_alerts": [],
       "anomality_alert": []
+    },
+    {
+      "agent_id": "AGT-5521",
+      "business_name": "Zindabazar Cash Corner",
+      "area_name": "Zindabazar",
+      "last_updated": "2026-07-11T12:23:00+06:00",
+      "manager_id": "MGR-BK-SYL-01",
+      "balances": {
+        "shared_physical_cash": 64000,
+        "provider_e_money": {
+          "bKash": 27500,
+          "Nagad": 18500,
+          "Rocket": 33000
+        }
+      },
+      "operational_metrics": {
+        "daily_transaction_count": 104,
+        "projected_emoney_shortage": {
+          "provider": "NONE",
+          "estimated_window_mins": null
+        }
+      },
+      "recent_transactions": [
+        {
+          "transaction_id": "TXN-5531",
+          "user_id": "01755210001",
+          "provider_id": "bKash",
+          "time": "2026-07-11T06:19:00Z",
+          "transaction_type": "cash-out",
+          "amount": 3100,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-5532",
+          "user_id": "01755210001",
+          "provider_id": "bKash",
+          "time": "2026-07-11T06:20:00Z",
+          "transaction_type": "cash-out",
+          "amount": 3100,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-5533",
+          "user_id": "01755210001",
+          "provider_id": "bKash",
+          "time": "2026-07-11T06:21:00Z",
+          "transaction_type": "cash-out",
+          "amount": 3100,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-5534",
+          "user_id": "01755210001",
+          "provider_id": "bKash",
+          "time": "2026-07-11T06:22:00Z",
+          "transaction_type": "cash-out",
+          "amount": 3100,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-5535",
+          "user_id": "01755210002",
+          "provider_id": "bKash",
+          "time": "2026-07-11T06:23:00Z",
+          "transaction_type": "cash-out",
+          "amount": 3100,
+          "status": "success",
+          "event_flags": []
+        }
+      ],
+      "active_alerts": [],
+      "anomality_alert": []
+    },
+    {
+      "agent_id": "AGT-7782",
+      "business_name": "Subidbazar Night Counter",
+      "area_name": "Subidbazar",
+      "last_updated": "2026-07-11T00:36:00+06:00",
+      "manager_id": "MGR-NG-SYL-01",
+      "balances": {
+        "shared_physical_cash": 154000,
+        "provider_e_money": {
+          "bKash": 29500,
+          "Nagad": 88500,
+          "Rocket": 24500
+        }
+      },
+      "operational_metrics": {
+        "daily_transaction_count": 74,
+        "projected_emoney_shortage": {
+          "provider": "NONE",
+          "estimated_window_mins": null
+        }
+      },
+      "support_requests": [
+        {
+          "request_id": "REQ-7782-01",
+          "provider_id": "Nagad",
+          "status": "open",
+          "urgency": "critical",
+          "message": "Counter says Nagad e-money is empty, needs immediate refill."
+        }
+      ],
+      "recent_transactions": [
+        {
+          "transaction_id": "TXN-7791",
+          "user_id": "01977820001",
+          "provider_id": "Nagad",
+          "time": "2026-07-10T18:29:00Z",
+          "transaction_type": "cash-out",
+          "amount": 72000,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-7792",
+          "user_id": "01977820002",
+          "provider_id": "Nagad",
+          "time": "2026-07-10T18:32:00Z",
+          "transaction_type": "cash-in",
+          "amount": 2400,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-7793",
+          "user_id": "01977820003",
+          "provider_id": "bKash",
+          "time": "2026-07-10T18:35:00Z",
+          "transaction_type": "cash-out",
+          "amount": 1800,
+          "status": "success",
+          "event_flags": []
+        }
+      ],
+      "active_alerts": [],
+      "anomality_alert": []
+    },
+    {
+      "agent_id": "AGT-9061",
+      "business_name": "Kumarpara Rocket Point",
+      "area_name": "Kumarpara",
+      "last_updated": "2026-07-11T15:12:00+06:00",
+      "manager_id": "MGR-RK-SYL-01",
+      "balances": {
+        "shared_physical_cash": 88000,
+        "provider_e_money": {
+          "bKash": 21000,
+          "Nagad": 17500,
+          "Rocket": 15000
+        }
+      },
+      "operational_metrics": {
+        "daily_transaction_count": 112,
+        "projected_emoney_shortage": {
+          "provider": "Rocket",
+          "estimated_window_mins": 80
+        }
+      },
+      "recent_transactions": [
+        {
+          "transaction_id": "TXN-9161",
+          "user_id": "01890610001",
+          "provider_id": "Rocket",
+          "time": "2026-07-11T09:00:00Z",
+          "transaction_type": "cash-in",
+          "amount": 1600,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-9162",
+          "user_id": "01890610001",
+          "provider_id": "Rocket",
+          "time": "2026-07-11T09:01:00Z",
+          "transaction_type": "cash-in",
+          "amount": 1550,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-9163",
+          "user_id": "01890610001",
+          "provider_id": "Rocket",
+          "time": "2026-07-11T09:02:00Z",
+          "transaction_type": "cash-in",
+          "amount": 1500,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-9164",
+          "user_id": "01890610001",
+          "provider_id": "Rocket",
+          "time": "2026-07-11T09:03:00Z",
+          "transaction_type": "cash-in",
+          "amount": 1650,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-9165",
+          "user_id": "01890610001",
+          "provider_id": "Rocket",
+          "time": "2026-07-11T09:05:00Z",
+          "transaction_type": "cash-out",
+          "amount": 1900,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-9166",
+          "user_id": "01890610001",
+          "provider_id": "Rocket",
+          "time": "2026-07-11T09:07:00Z",
+          "transaction_type": "cash-in",
+          "amount": 1450,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-9167",
+          "user_id": "01890610001",
+          "provider_id": "Rocket",
+          "time": "2026-07-11T09:09:00Z",
+          "transaction_type": "cash-in",
+          "amount": 1700,
+          "status": "success",
+          "event_flags": []
+        },
+        {
+          "transaction_id": "TXN-9168",
+          "user_id": "01890610001",
+          "provider_id": "Rocket",
+          "time": "2026-07-11T09:11:00Z",
+          "transaction_type": "cash-in",
+          "amount": 1750,
+          "status": "success",
+          "event_flags": []
+        }
+      ],
+      "active_alerts": [],
+      "anomality_alert": []
     }
   ],
   "field_workers": [
@@ -885,7 +1139,8 @@
         "assigned_cases": [
           "CASE-1001",
           "CASE-3001",
-          "CASE-5501"
+          "CASE-5501",
+          "CASE-5502"
         ],
         "unassigned_cases": [
           "CASE-1003"
@@ -909,7 +1164,8 @@
       "active_workload": {
         "assigned_cases": [
           "CASE-1002",
-          "CASE-7701"
+          "CASE-7701",
+          "CASE-7703"
         ],
         "unassigned_cases": [
           "CASE-2001",
@@ -933,7 +1189,8 @@
       "active_workload": {
         "assigned_cases": [
           "CASE-4001",
-          "CASE-9001"
+          "CASE-9001",
+          "CASE-9002"
         ],
         "unassigned_cases": [
           "CASE-4002"
@@ -1047,6 +1304,19 @@
       "recommended_action": "Review the customer sequence with the agent and verify transaction purpose before escalation."
     },
     {
+      "case_id": "CASE-5502",
+      "agent_id": "AGT-5521",
+      "provider_id": "bKash",
+      "area_name": "Zindabazar",
+      "alert_type": "clone_and_smurfing_pattern",
+      "created_at": "2026-07-11T12:24:00+06:00",
+      "status": "acknowledged",
+      "owner_worker_id": "FW-BK-101",
+      "evidence": "Five identical bKash cash-outs occurred in five minutes, including four from one customer identifier.",
+      "safe_language_note": "Repeated amounts and customer velocity require review; this is not a conclusion.",
+      "recommended_action": "Compare customer confirmations and agent cash register notes for both Zindabazar agents."
+    },
+    {
       "case_id": "CASE-7701",
       "agent_id": "AGT-7781",
       "provider_id": "Nagad",
@@ -1073,6 +1343,19 @@
       "recommended_action": "Compare live app balance with recorded balance before sending additional e-money."
     },
     {
+      "case_id": "CASE-7703",
+      "agent_id": "AGT-7782",
+      "provider_id": "Nagad",
+      "area_name": "Subidbazar",
+      "alert_type": "area_time_and_balance_inconsistency",
+      "created_at": "2026-07-11T00:36:00+06:00",
+      "status": "acknowledged",
+      "owner_worker_id": "FW-NG-9921",
+      "evidence": "A second Subidbazar counter shows odd-hour high-value Nagad activity and a conflicting shortage request.",
+      "safe_language_note": "Treat as area-level review context, not an automated decision.",
+      "recommended_action": "Check both Subidbazar counters before dispatching Nagad e-money support."
+    },
+    {
       "case_id": "CASE-9001",
       "agent_id": "AGT-9055",
       "provider_id": "Rocket",
@@ -1084,6 +1367,19 @@
       "evidence": "Twenty consecutive Rocket cash-in attempts failed inside a ten-minute window.",
       "safe_language_note": "This may indicate provider downtime, repeated user error, or another operational issue.",
       "recommended_action": "Check Rocket service status and contact the agent before asking customers to retry."
+    },
+    {
+      "case_id": "CASE-9002",
+      "agent_id": "AGT-9061",
+      "provider_id": "Rocket",
+      "area_name": "Kumarpara",
+      "alert_type": "smurfing_velocity",
+      "created_at": "2026-07-11T15:12:00+06:00",
+      "status": "acknowledged",
+      "owner_worker_id": "FW-RK-207",
+      "evidence": "One Rocket customer identifier completed eight transactions across eleven minutes near another Kumarpara failure spike.",
+      "safe_language_note": "Area cluster requires operational review; do not infer intent from the pattern alone.",
+      "recommended_action": "Review Kumarpara Rocket service health and customer sequence with both nearby agents."
     }
   ],
   "managers": [
@@ -1111,6 +1407,11 @@
             "location": "Zindabazar",
             "issue_type": "Cross-Provider Customer Velocity",
             "severity": "High"
+          },
+          {
+            "location": "Zindabazar",
+            "issue_type": "Repeated Equal-Amount Burst",
+            "severity": "High"
           }
         ]
       },
@@ -1132,6 +1433,12 @@
           "entity_type": "User",
           "flag_reason": "Eight rapid cross-provider transactions at Zindabazar Digital Cash",
           "timestamp": "2026-07-11T06:16:00Z"
+        },
+        {
+          "entity_id": "AGT-5521",
+          "entity_type": "Agent",
+          "flag_reason": "Second Zindabazar counter with repeated equal-amount bKash cash-outs",
+          "timestamp": "2026-07-11T06:23:00Z"
         }
       ],
       "case_management": {
@@ -1151,6 +1458,12 @@
           {
             "case_id": "CASE-5501",
             "target_entity": "01755000001",
+            "assigned_to_worker": "FW-BK-101",
+            "status": "acknowledged"
+          },
+          {
+            "case_id": "CASE-5502",
+            "target_entity": "AGT-5521",
             "assigned_to_worker": "FW-BK-101",
             "status": "acknowledged"
           }
@@ -1184,6 +1497,11 @@
             "location": "Subidbazar",
             "issue_type": "Late High-Value Review",
             "severity": "High"
+          },
+          {
+            "location": "Subidbazar",
+            "issue_type": "Balance Sync Conflict",
+            "severity": "High"
           }
         ]
       },
@@ -1199,6 +1517,12 @@
           "entity_type": "Agent",
           "flag_reason": "Urgent shortage request conflicts with recorded Nagad balance",
           "timestamp": "2026-07-10T18:26:00Z"
+        },
+        {
+          "entity_id": "AGT-7782",
+          "entity_type": "Agent",
+          "flag_reason": "Second Subidbazar counter with odd-hour high-value Nagad activity",
+          "timestamp": "2026-07-10T18:36:00Z"
         }
       ],
       "case_management": {
@@ -1226,6 +1550,12 @@
             "target_entity": "AGT-7781",
             "assigned_to_worker": null,
             "status": "open"
+          },
+          {
+            "case_id": "CASE-7703",
+            "target_entity": "AGT-7782",
+            "assigned_to_worker": "FW-NG-9921",
+            "status": "acknowledged"
           }
         ],
         "resolved_cases": []
@@ -1255,6 +1585,11 @@
             "location": "Kumarpara",
             "issue_type": "Rocket Failure Spike",
             "severity": "High"
+          },
+          {
+            "location": "Kumarpara",
+            "issue_type": "Rocket Customer Velocity",
+            "severity": "High"
           }
         ]
       },
@@ -1270,6 +1605,12 @@
           "entity_type": "Agent",
           "flag_reason": "Twenty consecutive Rocket failures in a short window",
           "timestamp": "2026-07-11T08:59:30Z"
+        },
+        {
+          "entity_id": "01890610001",
+          "entity_type": "User",
+          "flag_reason": "Eight rapid Rocket transactions at Kumarpara Rocket Point",
+          "timestamp": "2026-07-11T09:11:00Z"
         }
       ],
       "case_management": {
@@ -1291,10 +1632,70 @@
             "target_entity": "AGT-9055",
             "assigned_to_worker": "FW-RK-207",
             "status": "acknowledged"
+          },
+          {
+            "case_id": "CASE-9002",
+            "target_entity": "01890610001",
+            "assigned_to_worker": "FW-RK-207",
+            "status": "acknowledged"
           }
         ],
         "resolved_cases": []
       }
+    }
+  ],
+  "tickets": [
+    {
+      "ticketId": "TICKET-1001",
+      "agentId": "AGENT-001",
+      "agent_id": "AGT-2148",
+      "assignedProvider": "nagad",
+      "status": "New",
+      "ownerId": "nagad-officer-01",
+      "areaName": "Bandar Bazar",
+      "priority": "High",
+      "title": "Nagad liquidity verification",
+      "summary": "Officer should confirm the requested Nagad float before dispatch."
+    },
+    {
+      "ticketId": "TICKET-1002",
+      "agentId": "AGENT-001",
+      "agent_id": "AGT-2148",
+      "assignedProvider": "bKash",
+      "status": "Acknowledged",
+      "ownerId": "bkash-officer-01",
+      "areaName": "Bandar Bazar",
+      "priority": "Medium",
+      "title": "bKash float balancing follow-up",
+      "summary": "Check whether surplus physical cash can support a nearby pressure point."
+    },
+    {
+      "ticketId": "TICKET-1003",
+      "agentId": "AGENT-001",
+      "agent_id": "AGT-2148",
+      "assignedProvider": "nagad",
+      "status": "Closed",
+      "ownerId": "nagad-officer-02",
+      "areaName": "Bandar Bazar",
+      "priority": "Low",
+      "title": "Resolved Nagad route check",
+      "summary": "Closed ticket used to verify active-ticket filtering."
+    }
+  ],
+  "messages": [
+    {
+      "messageId": "MESSAGE-1001",
+      "ticketId": "TICKET-1001",
+      "senderRole": "agent",
+      "text": "Nagad counter balance looks low from the shop app.",
+      "timestamp": "2026-07-11T05:30:00.000Z"
+    },
+    {
+      "messageId": "MESSAGE-1002",
+      "ticketId": "TICKET-1001",
+      "senderRole": "officer",
+      "text": "Please keep the latest confirmation screen ready for review.",
+      "timestamp": "2026-07-11T05:32:00.000Z"
     }
   ]
 }

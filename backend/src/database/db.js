@@ -16,6 +16,8 @@ const DEFAULT_JSON_DB = {
   field_workers: [],
   cases: [],
   managers: [],
+  tickets: [],
+  messages: [],
 };
 
 function getJsonDbPath() {
@@ -48,6 +50,8 @@ async function ensureJsonDb() {
       field_workers: seedData.field_workers || [],
       cases: seedData.cases || [],
       managers: seedData.managers || [],
+      tickets: seedData.tickets || [],
+      messages: seedData.messages || [],
     };
 
     await fs.mkdir(path.dirname(filePath), { recursive: true });
@@ -95,7 +99,9 @@ async function testJsonDbConnection() {
   const workersCount = Array.isArray(data.field_workers) ? data.field_workers.length : 0;
   const casesCount = Array.isArray(data.cases) ? data.cases.length : 0;
   const managersCount = Array.isArray(data.managers) ? data.managers.length : 0;
-  const totalCount = agentsCount + workersCount + casesCount + managersCount;
+  const ticketsCount = Array.isArray(data.tickets) ? data.tickets.length : 0;
+  const messagesCount = Array.isArray(data.messages) ? data.messages.length : 0;
+  const totalCount = agentsCount + workersCount + casesCount + managersCount + ticketsCount + messagesCount;
 
   return {
     source: 'local-json',
